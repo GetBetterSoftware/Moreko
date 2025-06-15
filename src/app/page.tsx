@@ -5,7 +5,7 @@ export default function Home() {
   return (
     <div className="flex flex-col items-center justify-start min-h-screen py-2">
         <HeroSection />
-        {/* <About/> */}
+        <About/>
     </div>
   );
 }

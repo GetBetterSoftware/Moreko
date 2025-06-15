@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function HeroSection() {
   return (
-    <div className={`bg-[#FF6363] h-screen max-h-[900px] max-w-[1440px] w-screen p-10 flex flex-col items-center justify-center `}>
+    <div className={`bg-[] h-screen max-h-[900px] max-w-[1440px] w-screen p-10 flex flex-col items-center justify-center `}>
         <div className='h-[80%] w-[80%] bg-[#ffffff] rounded relative'>
             <div className='absolute left-20 top-20 z-10'>
               <h1 className='text-8xl transform translate-y-1/2 font-bold'>
