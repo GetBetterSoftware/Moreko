@@ -46,7 +46,7 @@ export default function ContactForm(){
                 <div className="mb-5">
                 <label className="block mb-2 font-medium text-gray-700">Message</label>
                 <textarea
-                    rows="4"
+                    
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-200"
                     placeholder="Your message..."
                 ></textarea>
