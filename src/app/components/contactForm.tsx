@@ -15,7 +15,7 @@ export default function ContactForm(){
             </div>
 
 
-            <form className="max-w-sm mx-auto bg-white p-6 rounded-lg shadow-md">
+            <form className="max-w-sm mx-auto bg-white p-6 rounded-lg ">
                 <div className="mb-5">
                 <label className="block mb-2 font-medium text-gray-700">Full Name</label>
                 <input
