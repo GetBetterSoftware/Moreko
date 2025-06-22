@@ -136,10 +136,10 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 max-w-screen w-1440">
       {/* Header */}
       <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-1440 mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
@@ -150,7 +150,7 @@ const Dashboard = () => {
                 <p className="text-sm text-gray-500">SMS Admin Portal</p>
               </div>
             </div>
-            <Button variant="outline" className="flex items-center space-x-2">
+            <Button variant="outline" className="flex items-center space-x-2 ">
               <LogOut className="w-4 h-4" />
               <span>Logout</span>
             </Button>
@@ -158,13 +158,13 @@ const Dashboard = () => {
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-1440 mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Navigation */}
         <nav className="flex space-x-4 mb-8">
           <Button
             variant={activeView === 'dashboard' ? 'default' : 'outline'}
             onClick={() => setActiveView('dashboard')}
-            className="flex items-center space-x-2"
+            className="flex items-center space-x-2 text-red-800 border-white hover:bg-gray-100 cursor-pointer"
           >
             <MessageSquare className="w-4 h-4" />
             <span>Dashboard</span>
@@ -172,7 +172,7 @@ const Dashboard = () => {
           <Button
             variant={activeView === 'contacts' ? 'default' : 'outline'}
             onClick={() => setActiveView('contacts')}
-            className="flex items-center space-x-2"
+            className="flex items-center space-x-2 text-red-800 border-white hover:bg-gray-100 cursor-pointer"
           >
             <Users className="w-4 h-4" />
             <span>Contacts</span>
@@ -180,7 +180,7 @@ const Dashboard = () => {
           <Button
             variant={activeView === 'compose' ? 'default' : 'outline'}
             onClick={() => setActiveView('compose')}
-            className="flex items-center space-x-2"
+            className="flex items-center space-x-2 text-red-800 border-white hover:bg-gray-100 cursor-pointer"
           >
             <Send className="w-4 h-4" />
             <span>Compose SMS</span>
@@ -188,7 +188,7 @@ const Dashboard = () => {
           <Button
             variant={activeView === 'history' ? 'default' : 'outline'}
             onClick={() => setActiveView('history')}
-            className="flex items-center space-x-2"
+            className="flex items-center space-x-2 text-red-800 border-white hover:bg-gray-100 cursor-pointer"
           >
             <History className="w-4 h-4" />
             <span>History</span>
@@ -196,7 +196,7 @@ const Dashboard = () => {
           <Button
             variant={activeView === 'templates' ? 'default' : 'outline'}
             onClick={() => setActiveView('templates')}
-            className="flex items-center space-x-2"
+            className="flex items-center space-x-2 text-red-800 border-white hover:bg-gray-100 cursor-pointer"
           >
             <FileText className="w-4 h-4" />
             <span>Templates</span>

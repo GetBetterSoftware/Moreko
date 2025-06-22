@@ -79,7 +79,7 @@ const MessageHistory = ({ history }: MessageHistoryProps) => {
           <h2 className="text-2xl font-bold text-gray-900">Message History</h2>
           <p className="text-gray-600">View and manage sent SMS messages</p>
         </div>
-        <Button onClick={exportHistory} variant="outline" className="flex items-center space-x-2">
+        <Button onClick={exportHistory} variant="outline" className="flex items-center space-x-2 text-red-800 border-white hover:bg-gray-100 cursor-pointer">
           <Download className="w-4 h-4" />
           <span>Export CSV</span>
         </Button>
