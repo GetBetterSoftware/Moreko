@@ -3,18 +3,14 @@ import ContactPage from "./components/contacts";
 import About from "./components/about";
 import Facilities from "./components/facilities";
 import UserAuth from "./components/UserAuth";
+import PublicSite from "./components/PublicSite";
 
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-start min-h-screen py-2">
-        <HeroSection />
-        <About/>
-
-        <UserAuth/>
-
-        <Facilities/>
-        <ContactPage/>
+    <div className="flex flex-col items-center justify-start min-h-screen py-2">   
+        <PublicSite/>
+          <UserAuth/>
     </div>
   );
 }
