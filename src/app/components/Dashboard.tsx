@@ -18,6 +18,7 @@ import MessageHistory from './MessageHistory';
 import TemplateManager from './TemplateManager';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
+import PublicSite from './PublicSite';
 
 interface DashboardProps {
   onLogout: () => void;
@@ -136,12 +137,12 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 max-w-screen w-1440">
+    <div className="min-h-screen bg-gray-50  w-screen max-w-[1440px]">
       {/* Header */}
       <header className="bg-white shadow-sm border-b">
-        <div className="w-1440 mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3">
+        <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16 w-full">
+            <div className="flex items-center space-x-4 ">
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
                 <MessageSquare className="w-5 h-5 text-white" />
               </div>
@@ -150,7 +151,9 @@ const Dashboard = () => {
                 <p className="text-sm text-gray-500">SMS Admin Portal</p>
               </div>
             </div>
-            <Button variant="outline" className="flex items-center space-x-2 ">
+            <Button variant={activeView === 'logout' ? 'default' : 'outline'}
+              onClick={() => setActiveView('contacts')}
+              className="flex items-center space-x-2 text-red-800 border-white hover:bg-gray-100 cursor-pointer">
               <LogOut className="w-4 h-4" />
               <span>Logout</span>
             </Button>
@@ -158,7 +161,7 @@ const Dashboard = () => {
         </div>
       </header>
 
-      <div className="max-w-1440 mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Navigation */}
         <nav className="flex space-x-4 mb-8">
           <Button
