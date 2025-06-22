@@ -120,7 +120,7 @@ const PublicSite = () => {
               <Button
                 variant="outline"
                 
-                className="text-red-800 border-white hover:bg-red-700 hover:text-white"
+                className="text-red-800 border-white hover:bg-gray-100 cursor-pointer"
               >
                 <User className="w-4 h-4 mr-2" />
                 Sign In
@@ -128,7 +128,7 @@ const PublicSite = () => {
               <Button
                 variant="outline"
                 
-                className="text-red-800 border-white hover:bg-red-700 hover:text-white"
+                className="text-red-800 border-white hover:bg-gray-100 cursor-pointer"
               >
                 <Settings className="w-4 h-4 mr-2" />
                 Admin
@@ -172,7 +172,7 @@ const PublicSite = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 size="lg" 
-                className="bg-red-800 hover:bg-red-900 text-white"
+                className="bg-red-800 hover:bg-red-900 text-white cursor-pointer"
                
               >
                 <Users className="w-5 h-5 mr-2" />
@@ -320,7 +320,7 @@ const PublicSite = () => {
           </div>
 
           <div className="text-center mt-8">
-            <Button size="lg"  className="bg-red-800 hover:bg-red-900 text-white">
+            <Button size="lg"  className="bg-red-800 hover:bg-red-900 text-white cursor-pointer">
               <LogIn className="w-5 h-5 mr-2" />
               Sign In to Access Platform
             </Button>
@@ -349,7 +349,7 @@ const PublicSite = () => {
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-600">{article.excerpt}</p>
-                  <Button variant="link" className="p-0 mt-2 text-red-800">
+                  <Button variant="link" className="p-0 mt-2 text-red-800 cursor-pointer">
                     Read More →
                   </Button>
                 </CardContent>
@@ -402,10 +402,10 @@ const PublicSite = () => {
             <div>
               <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2 text-red-200">
-                <li><Button variant="link"  className="text-red-200 hover:text-white p-0 h-auto">Digital Platform</Button></li>
+                <li><Button variant="link"  className="text-red-200 hover:text-white p-0 h-auto cursor-pointer">Digital Platform</Button></li>
                 <li><a href="#achievements" className="hover:text-white">Our Achievements</a></li>
                 <li><a href="#about" className="hover:text-white">About Us</a></li>
-                <li><Button variant="link"  className="text-red-200 hover:text-white p-0 h-auto">Admin Portal</Button></li>
+                <li><Button variant="link"  className="text-red-200 hover:text-white p-0 h-auto cursor-pointer">Admin Portal</Button></li>
               </ul>
             </div>
             
