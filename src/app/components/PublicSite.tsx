@@ -1,5 +1,6 @@
-import React from "react";
-import MapSection from "./map";
+"use client";
+import React from 'react';
+
 import { 
   GraduationCap, 
   BookOpen, 
@@ -11,15 +12,18 @@ import {
   LogIn,
   Lock,
   Download,
-  Calendar
-} from "lucide-react";
+  Calendar,
+  ImageIcon
+} from 'lucide-react';
+import { Button } from './ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 
 interface PublicSiteProps {
   onAdminLogin: () => void;
   onUserLogin: () => void;
 }
 
-const PublicSite = ({ onAdminLogin, onUserLogin }: PublicSiteProps) => {
+const PublicSite = () => {
   const achievements = [
     {
       year: "2024",
@@ -46,6 +50,58 @@ const PublicSite = ({ onAdminLogin, onUserLogin }: PublicSiteProps) => {
     motto: "Excellence Through Education",
     principal: "Mrs. T. Mogale"
   };
+   const newsArticles = [
+    {
+      id: 1,
+      title: "School receives library grant",
+      excerpt: "Moreko High School has been awarded a R50,000 grant to upgrade the school library with new books and digital resources.",
+      date: "January 15, 2024",
+      image: "/placeholder.svg"
+    },
+    {
+      id: 2,
+      title: "Grade 12 farewell celebration",
+      excerpt: "Our Grade 12 learners celebrated their final year with a memorable farewell ceremony attended by staff, parents, and community members.",
+      date: "January 10, 2024",
+      image: "/placeholder.svg"
+    },
+    {
+      id: 3,
+      title: "Principal wins teacher's award",
+      excerpt: "Mrs. Mogale has been recognized as Outstanding Educator of the Year at the provincial education awards ceremony.",
+      date: "January 5, 2024",
+      image: "/placeholder.svg"
+    }
+  ];
+
+  const libraryResources = [
+    {
+      title: "June Revision Pack",
+      description: "Mathematics and Science revision materials for Grades 10-12",
+      type: "PDF",
+      size: "2.3 MB"
+    },
+    {
+      title: "2024 School Calendar",
+      description: "Important dates, holidays, and school events for the year",
+      type: "PDF",
+      size: "1.1 MB"
+    },
+    {
+      title: "Uniform Policy Guide",
+      description: "Complete guidelines for school uniform requirements",
+      type: "PDF",
+      size: "0.8 MB"
+    }
+  ];
+
+  const galleryHighlights = [
+    { title: "Sports Day 2024", image: "/placeholder.svg" },
+    { title: "Science Fair Winners", image: "/placeholder.svg" },
+    { title: "Cultural Day Celebration", image: "/placeholder.svg" },
+    { title: "Matric Results Celebration", image: "/placeholder.svg" }
+  ];
+
 
   return (
     <div className="min-h-screen bg-white">
@@ -61,20 +117,22 @@ const PublicSite = ({ onAdminLogin, onUserLogin }: PublicSiteProps) => {
               </div>
             </div>
             <div className="flex items-center space-x-2">
-              <button
-                onClick={onUserLogin}
-                className="border border-white text-red-800 px-3 py-1 rounded hover:bg-red-700 hover:text-white flex items-center"
+              <Button
+                variant="outline"
+                
+                className="text-red-800 border-white hover:bg-red-700 hover:text-white"
               >
                 <User className="w-4 h-4 mr-2" />
                 Sign In
-              </button>
-              <button
-                onClick={onAdminLogin}
-                className="border border-white text-red-800 px-3 py-1 rounded hover:bg-red-700 hover:text-white flex items-center"
+              </Button>
+              <Button
+                variant="outline"
+                
+                className="text-red-800 border-white hover:bg-red-700 hover:text-white"
               >
                 <Settings className="w-4 h-4 mr-2" />
                 Admin
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -89,20 +147,15 @@ const PublicSite = ({ onAdminLogin, onUserLogin }: PublicSiteProps) => {
           <p className="text-xl md:text-2xl mb-8 text-red-100">
             {schoolInfo.motto}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button 
-              onClick={onUserLogin} 
-              className="bg-white text-red-800 px-6 py-3 rounded text-lg font-semibold flex items-center justify-center hover:bg-gray-100"
-            >
+          <div className="flex flex-col sm:flex-row gap-4 justify-center"> 
+            <Button size="lg"  className="bg-white text-red-800 hover:bg-gray-100 cursor-pointer">
               <LogIn className="w-5 h-5 mr-2" />
               Join Our Digital Platform
-            </button>
-            <button
-              className="border border-white text-white px-6 py-3 rounded text-lg font-semibold flex items-center justify-center hover:bg-white hover:text-red-800"
-            >
+            </Button>
+            <Button size="lg" variant="outline" className="border-white hover:bg-gray-100 text-red-800 cursor-pointer">
               <BookOpen className="w-5 h-5 mr-2" />
               Learn More About Us
-            </button>
+            </Button>
           </div>
         </div>
       </section>
@@ -117,13 +170,19 @@ const PublicSite = ({ onAdminLogin, onUserLogin }: PublicSiteProps) => {
               Our digital magazine, news articles, downloadable resources, and communication features are available to registered students and parents only.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button 
-                onClick={onUserLogin}
-                className="bg-red-800 px-6 py-3 rounded text-white font-semibold hover:bg-red-900 flex items-center justify-center"
+              <Button 
+                size="lg" 
+                className="bg-red-800 hover:bg-red-900 text-white"
+               
               >
                 <Users className="w-5 h-5 mr-2" />
                 Register / Sign In
-              </button>
+              </Button>
+
+               <Button size="lg" variant="outline">
+                <Calendar className="w-5 h-5 mr-2" />
+                View School Calendar
+              </Button>
             </div>
             <p className="text-sm text-gray-600 mt-4">
               Access news, digital library, newsletters, and stay connected with school updates
@@ -131,57 +190,65 @@ const PublicSite = ({ onAdminLogin, onUserLogin }: PublicSiteProps) => {
           </div>
         </section>
 
+   
+
         {/* About Our School */}
         <section className="mb-16">
-          <h2 id="about" className="text-3xl font-bold text-gray-900 mb-8 text-center">About Moreko High School</h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">About Moreko High School</h2>
+          
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <Card className="p-6">
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <MapPin className="w-6 h-6 mr-3 text-red-800" />
+                  School Information
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div>
+                  <h3 className="font-semibold text-gray-900">Address</h3>
+                  <p className="text-gray-600">{schoolInfo.address}</p>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">Contact</h3>
+                  <p className="text-gray-600">Phone: {schoolInfo.phone}</p>
+                  <p className="text-gray-600">Email: {schoolInfo.email}</p>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">Principal</h3>
+                  <p className="text-gray-600">{schoolInfo.principal}</p>
+                </div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">Established</h3>
+                  <p className="text-gray-600">{schoolInfo.established}</p>
+                </div>
+              </CardContent>
+            </Card>
 
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="flex items-center mb-4">
-                <MapPin className="w-6 h-6 mr-3 text-red-800" />
-                <h3 className="text-lg font-semibold">School Information</h3>
-              </div>
-              <div className="space-y-4 text-gray-600">
-                <div>
-                  <h4 className="font-semibold text-gray-900">Address</h4>
-                  <p>{schoolInfo.address}</p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900">Contact</h4>
-                  <p>Phone: {schoolInfo.phone}</p>
-                  <p>Email: {schoolInfo.email}</p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900">Principal</h4>
-                  <p>{schoolInfo.principal}</p>
-                </div>
-                <div>
-                  <h4 className="font-semibold text-gray-900">Established</h4>
-                  <p>{schoolInfo.established}</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="flex items-center mb-4">
-                <GraduationCap className="w-6 h-6 mr-3 text-red-800" />
-                <h3 className="text-lg font-semibold">Our Mission</h3>
-              </div>
-              <p className="text-gray-700 leading-relaxed mb-4">
-                Moreko High School is dedicated to providing quality education that nurtures academic excellence, 
-                character development, and community leadership. We strive to prepare our learners for success 
-                in higher education and meaningful careers.
-              </p>
-              <p className="text-gray-700 leading-relaxed">
-                Since {schoolInfo.established}, we have been a cornerstone of education in our community, 
-                fostering a culture of learning, respect, and achievement.
-              </p>
-            </div>
+            <Card className="p-6">
+              <CardHeader>
+                <CardTitle className="flex items-center">
+                  <GraduationCap className="w-6 h-6 mr-3 text-red-800" />
+                  Our Mission
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-700 leading-relaxed mb-4">
+                  Moreko High School is dedicated to providing quality education that nurtures academic excellence, 
+                  character development, and community leadership. We strive to prepare our learners for success 
+                  in higher education and meaningful careers.
+                </p>
+                <p className="text-gray-700 leading-relaxed">
+                  Since {schoolInfo.established}, we have been a cornerstone of education in our community, 
+                  fostering a culture of learning, respect, and achievement.
+                </p>
+              </CardContent>
+            </Card>
           </div>
         </section>
 
         {/* School Achievements */}
-        <section id="achievements" className="mb-16">
+        <section className="mb-16">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-900 flex items-center justify-center">
               <Trophy className="w-8 h-8 mr-3 text-red-800" />
@@ -189,15 +256,20 @@ const PublicSite = ({ onAdminLogin, onUserLogin }: PublicSiteProps) => {
             </h2>
             <p className="text-gray-600 mt-2">Celebrating excellence in academics and extracurricular activities</p>
           </div>
+          
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {achievements.map((achievement, idx) => (
-              <div key={idx} className="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition-shadow">
-                <div className="flex items-center justify-between mb-2">
-                  <h3 className="text-lg font-semibold">{achievement.title}</h3>
-                  <span className="text-2xl font-bold text-red-800">{achievement.year}</span>
-                </div>
-                <p className="text-gray-600">{achievement.description}</p>
-              </div>
+            {achievements.map((achievement, index) => (
+              <Card key={index} className="hover:shadow-lg transition-shadow">
+                <CardHeader>
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-lg">{achievement.title}</CardTitle>
+                    <span className="text-2xl font-bold text-red-800">{achievement.year}</span>
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">{achievement.description}</p>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </section>
@@ -208,56 +280,107 @@ const PublicSite = ({ onAdminLogin, onUserLogin }: PublicSiteProps) => {
             <h2 className="text-3xl font-bold text-gray-900">What's Available on Our Digital Platform</h2>
             <p className="text-gray-600 mt-2">Sign in to access these exclusive features</p>
           </div>
+          
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-
-            <div className="bg-white p-6 text-center rounded-lg opacity-75">
+            <Card className="text-center p-6 opacity-75">
               <div className="p-3 bg-red-100 rounded-lg mx-auto w-fit mb-4">
                 <BookOpen className="w-8 h-8 text-red-800" />
               </div>
               <h3 className="font-semibold mb-2">Digital Library</h3>
               <p className="text-sm text-gray-600">Download study materials, exam papers, and educational resources</p>
               <Lock className="w-4 h-4 text-gray-400 mx-auto mt-2" />
-            </div>
+            </Card>
 
-            <div className="bg-white p-6 text-center rounded-lg opacity-75">
+            <Card className="text-center p-6 opacity-75">
               <div className="p-3 bg-red-100 rounded-lg mx-auto w-fit mb-4">
                 <Calendar className="w-8 h-8 text-red-800" />
               </div>
               <h3 className="font-semibold mb-2">School News</h3>
               <p className="text-sm text-gray-600">Stay updated with latest announcements and school events</p>
               <Lock className="w-4 h-4 text-gray-400 mx-auto mt-2" />
-            </div>
+            </Card>
 
-            <div className="bg-white p-6 text-center rounded-lg opacity-75">
+            <Card className="text-center p-6 opacity-75">
               <div className="p-3 bg-red-100 rounded-lg mx-auto w-fit mb-4">
                 <Users className="w-8 h-8 text-red-800" />
               </div>
               <h3 className="font-semibold mb-2">Communication</h3>
               <p className="text-sm text-gray-600">Receive SMS and email updates about important school matters</p>
               <Lock className="w-4 h-4 text-gray-400 mx-auto mt-2" />
-            </div>
+            </Card>
 
-            <div className="bg-white p-6 text-center rounded-lg opacity-75">
+            <Card className="text-center p-6 opacity-75">
               <div className="p-3 bg-red-100 rounded-lg mx-auto w-fit mb-4">
                 <Download className="w-8 h-8 text-red-800" />
               </div>
               <h3 className="font-semibold mb-2">Newsletters</h3>
               <p className="text-sm text-gray-600">Access monthly newsletters and submit content for publication</p>
               <Lock className="w-4 h-4 text-gray-400 mx-auto mt-2" />
-            </div>
-
+            </Card>
           </div>
+
           <div className="text-center mt-8">
-            <button
-              onClick={onUserLogin}
-              className="bg-red-800 hover:bg-red-900 text-white px-6 py-3 rounded text-lg font-semibold flex items-center justify-center mx-auto"
-            >
+            <Button size="lg"  className="bg-red-800 hover:bg-red-900">
               <LogIn className="w-5 h-5 mr-2" />
               Sign In to Access Platform
-            </button>
+            </Button>
+          </div>
+        </section>
+
+        {/* Latest News Section */}
+        <section className="mb-16">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-3xl font-bold text-gray-900">Latest News</h2>
+            <Button variant="outline">View All News</Button>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {newsArticles.map((article) => (
+              <Card key={article.id} className="hover:shadow-lg transition-shadow">
+                <div className="aspect-video bg-gray-200 rounded-t-lg flex items-center justify-center">
+                  <ImageIcon className="w-12 h-12 text-gray-400" />
+                </div>
+                <CardHeader>
+                  <CardTitle className="text-lg">{article.title}</CardTitle>
+                  <p className="text-sm text-gray-500 flex items-center">
+                    <Calendar className="w-4 h-4 mr-1" />
+                    {article.date}
+                  </p>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">{article.excerpt}</p>
+                  <Button variant="link" className="p-0 mt-2 text-red-800">
+                    Read More →
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </section>
+
+          {/* Gallery Highlights Section */}
+        <section className="mb-16">
+          <div className="flex items-center justify-between mb-8">
+            <h2 className="text-3xl font-bold text-gray-900">Gallery Highlights</h2>
+            <Button variant="outline">View Full Gallery</Button>
+          </div>
+          
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {galleryHighlights.map((item, index) => (
+              <Card key={index} className="hover:shadow-lg transition-shadow cursor-pointer">
+                <div className="aspect-square bg-gray-200 rounded-t-lg flex items-center justify-center">
+                  <ImageIcon className="w-8 h-8 text-gray-400" />
+                </div>
+                <CardContent className="p-4">
+                  <p className="text-sm font-medium text-center">{item.title}</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </section>
       </div>
+
+
 
       {/* Footer */}
       <footer className="bg-red-800 text-white py-12">
@@ -279,24 +402,10 @@ const PublicSite = ({ onAdminLogin, onUserLogin }: PublicSiteProps) => {
             <div>
               <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2 text-red-200">
-                <li>
-                  <button 
-                    onClick={onUserLogin} 
-                    className="text-red-200 hover:text-white p-0 h-auto underline"
-                  >
-                    Digital Platform
-                  </button>
-                </li>
+                <li><Button variant="link"  className="text-red-200 hover:text-white p-0 h-auto">Digital Platform</Button></li>
                 <li><a href="#achievements" className="hover:text-white">Our Achievements</a></li>
                 <li><a href="#about" className="hover:text-white">About Us</a></li>
-                <li>
-                  <button 
-                    onClick={onAdminLogin} 
-                    className="text-red-200 hover:text-white p-0 h-auto underline"
-                  >
-                    Admin Portal
-                  </button>
-                </li>
+                <li><Button variant="link"  className="text-red-200 hover:text-white p-0 h-auto">Admin Portal</Button></li>
               </ul>
             </div>
             
@@ -313,8 +422,6 @@ const PublicSite = ({ onAdminLogin, onUserLogin }: PublicSiteProps) => {
               </div>
             </div>
           </div>
-           <div className="mt-5"><MapSection/></div>
-                 
           
           <div className="border-t border-red-700 mt-8 pt-8 text-center text-red-200">
             <p>&copy; 2024 Moreko High School. All rights reserved.</p>
