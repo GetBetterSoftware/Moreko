@@ -8,8 +8,8 @@ import UserAuth from "./components/UserAuth";
 export default function Home() {
   return (
     <div className="flex flex-col items-center justify-start min-h-screen py-2">   
-        {/* <PublicSite/> */}
-        <Dashboard/>
+        <PublicSite/>
+        {/* <Dashboard/> */}
     </div>
   );
 }

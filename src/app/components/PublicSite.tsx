@@ -17,6 +17,7 @@ import {
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+import Image from 'next/image';
 
 interface PublicSiteProps {
   onAdminLogin: () => void;
@@ -110,7 +111,7 @@ const PublicSite = () => {
         <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
-              <GraduationCap className="w-8 h-8" />
+              <Image src={"/images/LOGO.svg"} width={50} height={50} alt='LOGO'/>
               <div>
                 <h1 className="text-xl font-bold">Moreko High School</h1>
                 <p className="text-red-200 text-sm">Excellence in Education</p>
@@ -388,7 +389,7 @@ const PublicSite = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
               <div className="flex items-center space-x-3 mb-4">
-                <GraduationCap className="w-8 h-8" />
+                <Image src={"/images/LOGO.svg"} width={50} height={50} alt='LOGO'/>
                 <div>
                   <h3 className="text-xl font-bold">Moreko High School</h3>
                   <p className="text-red-200">{schoolInfo.motto}</p>
