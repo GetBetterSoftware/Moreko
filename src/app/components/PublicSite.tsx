@@ -104,10 +104,10 @@ const PublicSite = () => {
 
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen w-screen max-w-[1440px] bg-white">
       {/* Header */}
       <header className="bg-red-800 text-white shadow-lg">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
               <GraduationCap className="w-8 h-8" />
@@ -140,7 +140,7 @@ const PublicSite = () => {
 
       {/* Hero Banner */}
       <section className="bg-gradient-to-r from-red-800 to-red-600 text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl md:text-6xl font-bold mb-4">
             Welcome to Moreko High School
           </h2>
@@ -160,7 +160,7 @@ const PublicSite = () => {
         </div>
       </section>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Platform Access Notice */}
         <section className="mb-16 bg-gradient-to-r from-red-50 to-red-100 rounded-lg p-8 border-l-4 border-red-800">
           <div className="text-center">
@@ -179,7 +179,7 @@ const PublicSite = () => {
                 Register / Sign In
               </Button>
 
-               <Button size="lg" variant="outline">
+               <Button className="bg-white text-red-800 hover:bg-gray-100 cursor-pointer"size="lg">
                 <Calendar className="w-5 h-5 mr-2" />
                 View School Calendar
               </Button>
@@ -320,7 +320,7 @@ const PublicSite = () => {
           </div>
 
           <div className="text-center mt-8">
-            <Button size="lg"  className="bg-red-800 hover:bg-red-900">
+            <Button size="lg"  className="bg-red-800 hover:bg-red-900 text-white">
               <LogIn className="w-5 h-5 mr-2" />
               Sign In to Access Platform
             </Button>
@@ -331,7 +331,7 @@ const PublicSite = () => {
         <section className="mb-16">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-3xl font-bold text-gray-900">Latest News</h2>
-            <Button variant="outline">View All News</Button>
+            <Button className="bg-white text-red-800 hover:bg-gray-100 cursor-pointer">View All News</Button>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -362,7 +362,7 @@ const PublicSite = () => {
         <section className="mb-16">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-3xl font-bold text-gray-900">Gallery Highlights</h2>
-            <Button variant="outline">View Full Gallery</Button>
+            <Button className="bg-white text-red-800 hover:bg-gray-100 cursor-pointer">View Full Gallery</Button>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -384,7 +384,7 @@ const PublicSite = () => {
 
       {/* Footer */}
       <footer className="bg-red-800 text-white py-12">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
               <div className="flex items-center space-x-3 mb-4">
