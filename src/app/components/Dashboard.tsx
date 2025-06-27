@@ -153,7 +153,7 @@ const Dashboard = () => {
             </div>
             <Button variant={activeView === 'logout' ? 'default' : 'outline'}
               onClick={() => setActiveView('contacts')}
-              className="flex items-center space-x-2 text-red-800 border-white hover:bg-gray-100 cursor-pointer">
+              className="flex items-center space-x-2  bg-red-800 hover:bg-red-900 cursor-pointer">
               <LogOut className="w-4 h-4" />
               <span>Logout</span>
             </Button>
@@ -167,7 +167,7 @@ const Dashboard = () => {
           <Button
             variant={activeView === 'dashboard' ? 'default' : 'outline'}
             onClick={() => setActiveView('dashboard')}
-            className="flex items-center space-x-2 text-red-800 border-white hover:bg-gray-100 cursor-pointer"
+            className="flex items-center space-x-2  bg-red-800 hover:bg-red-900 cursor-pointer"
           >
             <MessageSquare className="w-4 h-4" />
             <span>Dashboard</span>
@@ -175,7 +175,7 @@ const Dashboard = () => {
           <Button
             variant={activeView === 'contacts' ? 'default' : 'outline'}
             onClick={() => setActiveView('contacts')}
-            className="flex items-center space-x-2 text-red-800 border-white hover:bg-gray-100 cursor-pointer"
+            className="flex items-center space-x-2 bg-red-800 hover:bg-red-900 cursor-pointer"
           >
             <Users className="w-4 h-4" />
             <span>Contacts</span>
@@ -183,7 +183,7 @@ const Dashboard = () => {
           <Button
             variant={activeView === 'compose' ? 'default' : 'outline'}
             onClick={() => setActiveView('compose')}
-            className="flex items-center space-x-2 text-red-800 border-white hover:bg-gray-100 cursor-pointer"
+            className="flex items-center space-x-2 bg-red-800 hover:bg-red-900 cursor-pointer"
           >
             <Send className="w-4 h-4" />
             <span>Compose SMS</span>
@@ -191,7 +191,7 @@ const Dashboard = () => {
           <Button
             variant={activeView === 'history' ? 'default' : 'outline'}
             onClick={() => setActiveView('history')}
-            className="flex items-center space-x-2 text-red-800 border-white hover:bg-gray-100 cursor-pointer"
+            className="flex items-center space-x-2 bg-red-800 hover:bg-red-900 cursor-pointer"
           >
             <History className="w-4 h-4" />
             <span>History</span>
@@ -199,7 +199,7 @@ const Dashboard = () => {
           <Button
             variant={activeView === 'templates' ? 'default' : 'outline'}
             onClick={() => setActiveView('templates')}
-            className="flex items-center space-x-2 text-red-800 border-white hover:bg-gray-100 cursor-pointer"
+            className="flex items-center space-x-2 bg-red-800 hover:bg-red-900 cursor-pointer"
           >
             <FileText className="w-4 h-4" />
             <span>Templates</span>

@@ -68,7 +68,7 @@ const ContactManager = ({ contacts: initialContacts }: ContactManagerProps) => {
         </div>
         <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
           <DialogTrigger asChild>
-            <Button className="flex items-center space-x-2">
+            <Button className="flex items-center space-x-2 bg-red-800 hover:bg-red-900">
               <Plus className="w-4 h-4" />
               <span>Add Contact</span>
             </Button>

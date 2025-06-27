@@ -145,7 +145,7 @@ const TemplateManager = () => {
         }}>
           <DialogTrigger asChild>
             <Button 
-              className="flex items-center space-x-2 text-red-800 border-white hover:bg-gray-100 cursor-pointer"
+              className="flex items-center space-x-2 bg-red-800 hover:bg-red-900 cursor-pointer"
               onClick={() => setIsAddDialogOpen(true)}
             >
               <Plus className="w-4 h-4" />
