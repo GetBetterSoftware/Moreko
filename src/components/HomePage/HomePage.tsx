@@ -16,7 +16,7 @@ import {
   ImageIcon
 } from 'lucide-react';
 
-import styles from "@/app/components/styles/HomepageStyles.module.css"
+import styles from "@/components/styles/HomepageStyles.module.css"
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import Image from 'next/image';
