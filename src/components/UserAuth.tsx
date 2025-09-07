@@ -52,59 +52,6 @@ const UserAuth = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
-          {!isLogin && (
-            <>
-              <div className="space-y-2">
-                <Label htmlFor="name">Full Name</Label>
-                <Input
-                  id="name"
-                  type="text"
-                  placeholder="Enter your full name"
-                  value={formData.name}
-                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="role">I am a:</Label>
-                <div className="flex space-x-4">
-                  <Button
-                    type="button"
-                    variant={formData.role === 'student' ? 'default' : 'outline'}
-                    onClick={() => setFormData({ ...formData, role: 'student' })}
-                    className="flex-1"
-                  >
-                    <User className="w-4 h-4 mr-2" />
-                    Student
-                  </Button>
-                  <Button
-                    type="button"
-                    variant={formData.role === 'parent' ? 'default' : 'outline'}
-                    onClick={() => setFormData({ ...formData, role: 'parent' })}
-                    className="flex-1"
-                  >
-                    <Users className="w-4 h-4 mr-2" />
-                    Parent
-                  </Button>
-                </div>
-              </div>
-
-              {formData.role === 'parent' && (
-                <div className="space-y-2">
-                  <Label htmlFor="phone">Phone Number</Label>
-                  <Input
-                    id="phone"
-                    type="tel"
-                    placeholder="+27 81 234 5678"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                  />
-                </div>
-              )}
-            </>
-          )}
-
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -151,13 +98,6 @@ const UserAuth = () => {
           </Button>
         </div>
 
-        {isLogin && (
-          <div className="mt-4 p-3 bg-gray-50 rounded text-sm text-gray-600">
-            <p><strong>Demo credentials:</strong></p>
-            <p>Admin: admin@moreko.edu.za / admin123</p>
-            <p>Or register as Student/Parent</p>
-          </div>
-        )}
       </Card>
     </div>
   );
