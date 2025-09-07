@@ -18,7 +18,7 @@ import MessageHistory from './MessageHistory';
 import TemplateManager from './TemplateManager';
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Button } from './ui/button';
-import PublicSite from './PublicSite';
+import PublicSite from './HomePage/HomePage';
 
 interface DashboardProps {
   onLogout: () => void;

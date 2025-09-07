@@ -15,8 +15,10 @@ import {
   Calendar,
   ImageIcon
 } from 'lucide-react';
-import { Button } from './ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
+
+import styles from "@/app/components/styles/HomepageStyles.module.css"
+import { Button } from '../ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import Image from 'next/image';
 
 interface PublicSiteProps {
@@ -24,7 +26,7 @@ interface PublicSiteProps {
   onUserLogin: () => void;
 }
 
-const PublicSite = () => {
+const HomePage = () => {
   const achievements = [
     {
       year: "2024",
@@ -105,9 +107,9 @@ const PublicSite = () => {
 
 
   return (
-    <div className="min-h-screen w-screen max-w-[1440px] bg-white">
+    <div className={`${styles.styles}`}>
       {/* Header */}
-      <header className="bg-red-800 text-white shadow-lg">
+      <header className={`text-white shadow-lg`}>
         <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
@@ -433,4 +435,4 @@ const PublicSite = () => {
   );
 };
 
-export default PublicSite;
+export default HomePage;
