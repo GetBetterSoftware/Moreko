@@ -20,6 +20,7 @@ import styles from "@/components/styles/HomepageStyles.module.css"
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface PublicSiteProps {
   onAdminLogin: () => void;
@@ -120,6 +121,7 @@ const HomePage = () => {
               </div>
             </div>
             <div className="flex items-center space-x-2">
+              <Link href="/login" className="hover:disabled">
               <Button
                 variant="outline"
                 
@@ -128,6 +130,7 @@ const HomePage = () => {
                 <User className="w-4 h-4 mr-2" />
                 Sign In
               </Button>
+              </Link>
               <Button
                 variant="outline"
                 
