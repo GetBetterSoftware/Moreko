@@ -1,31 +1,49 @@
 .styles{
     backface-visibility: hidden;
     background-color: rgb(128, 0, 0);
-    width: min("100vw", "1440px") !important;
+    max-width: min(1920px, 100vw) !important;
+    margin: auto;
 }
 
-@media (min-width: 1536px){
+    .menu{
+        display: none;
+    }
+    .buttons{
+        display: flex;
+    }
+    .title{
+        display: block;
+    }
 
+
+@media (min-width: 526px){
+    .menu{
+        display: none;
+    }
+    .buttons{
+        display: flex;
+    }
+    .title{
+        display: block;
+    }
 }
 
-@media (min-width: 1280px){
 
+
+@media (max-width: 525px){
+    .menu{
+        display: flex;
+    }
+    .buttons{
+        display: none;
+    }
+    
 }
 
-@media (min-width: 1024px){
-
+@media (max-width: 355px){
+    .title{
+        display: none;
+    }
+    
 }
 
-@media (min-width: 728px){
-
-}
-
-@media (min-width: 640px){
-
-}
-@media (min-width: 475px){
-
-}
-@media (min-width: 320px){
-
-}
