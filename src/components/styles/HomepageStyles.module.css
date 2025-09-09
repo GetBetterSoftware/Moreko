@@ -16,7 +16,7 @@
     }
 
 
-@media (min-width: 526px){
+@media (min-width: 541px){
     .menu{
         display: none;
     }
@@ -30,7 +30,7 @@
 
 
 
-@media (max-width: 525px){
+@media (max-width: 540px){
     .menu{
         display: flex;
     }

@@ -11,7 +11,7 @@ const NavBar = () => {
     const [showMenu, setShowMenu] = useState(false)
     
     return (
-        <header className={`text-white shadow-lg px-5 relative`}>
+        <header className={`text-white shadow-lg px-5 relative bg-red-800`}>
         <div className="mx-auto ">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-3">
