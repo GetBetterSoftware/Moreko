@@ -1,6 +1,6 @@
 .styles{
     backface-visibility: hidden;
-    background-color: rgb(128, 0, 0);
+    background-color: rgb(255, 255, 255);
     max-width: min(1920px, 100vw) !important;
     margin: auto;
 }
