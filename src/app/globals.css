@@ -71,3 +71,29 @@ body {
 .read-the-docs {
   color: #888;
 }
+
+.showLinks{
+    right: -200px;
+    display: flex;
+    transition: 500ms;
+    user-select: none;
+}
+.hide{
+  display: none;
+}
+
+.showMenu{
+    
+    right: 15px
+}
+
+.hideMenu{
+    right: -200px
+   
+}
+
+@media (min-width: 526px){
+    .showLinks{
+      display: none;
+    }
+}

@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import React from "react";
 
 export const metadata: Metadata = {
   title: "Login | Moreko High School",
@@ -11,10 +12,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
+    
+      <React.Fragment>
         {children}
-      </body>
-    </html>
+      </React.Fragment>
+   
   );
 }

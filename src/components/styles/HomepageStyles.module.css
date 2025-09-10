@@ -1,5 +1,49 @@
 .styles{
     backface-visibility: hidden;
-    background-color: rgb(255, 0, 179) !important;
-    width: min("100vw", "1440px") !important;
+    background-color: rgb(128, 0, 0);
+    max-width: min(1920px, 100vw) !important;
+    margin: auto;
 }
+
+    .menu{
+        display: none;
+    }
+    .buttons{
+        display: flex;
+    }
+    .title{
+        display: block;
+    }
+
+
+@media (min-width: 541px){
+    .menu{
+        display: none;
+    }
+    .buttons{
+        display: flex;
+    }
+    .title{
+        display: block;
+    }
+}
+
+
+
+@media (max-width: 540px){
+    .menu{
+        display: flex;
+    }
+    .buttons{
+        display: none;
+    }
+    
+}
+
+@media (max-width: 355px){
+    .title{
+        display: none;
+    }
+    
+}
+

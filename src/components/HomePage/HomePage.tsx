@@ -1,5 +1,5 @@
 "use client";
-import React from 'react';
+import React, { useState } from 'react';
 
 import { 
   GraduationCap, 
@@ -20,6 +20,8 @@ import styles from "@/components/styles/HomepageStyles.module.css"
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import Image from 'next/image';
+import Link from 'next/link';
+import NavBar from './NavBar';
 
 interface PublicSiteProps {
   onAdminLogin: () => void;
@@ -105,42 +107,12 @@ const HomePage = () => {
     { title: "Matric Results Celebration", image: "/placeholder.svg" }
   ];
 
+ 
 
   return (
     <div className={`${styles.styles}`}>
       {/* Header */}
-      <header className={`text-white shadow-lg`}>
-        <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3">
-              <Image src={"/images/LOGO.svg"} width={50} height={50} alt='LOGO'/>
-              <div>
-                <h1 className="text-xl font-bold">Moreko High School</h1>
-                <p className="text-red-200 text-sm">Excellence in Education</p>
-              </div>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Button
-                variant="outline"
-                
-                className="text-red-800 border-white hover:bg-gray-100 cursor-pointer"
-              >
-                <User className="w-4 h-4 mr-2" />
-                Sign In
-              </Button>
-              <Button
-                variant="outline"
-                
-                className="text-red-800 border-white hover:bg-gray-100 cursor-pointer"
-              >
-                <Settings className="w-4 h-4 mr-2" />
-                Admin
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
-
+      <NavBar />
       {/* Hero Banner */}
       <section className="bg-gradient-to-r from-red-800 to-red-600 text-white py-16">
         <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -434,5 +406,8 @@ const HomePage = () => {
     </div>
   );
 };
+
+
+
 
 export default HomePage;
