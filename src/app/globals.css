@@ -7,6 +7,10 @@
 
 * {
   box-sizing: border-box;
+  
+}
+html {
+  scroll-behavior: smooth;
 }
 
 @theme inline {
@@ -73,8 +77,10 @@ body {
 }
 
 .showLinks{
-    right: -200px;
+    right: -40px;
+    padding-right: 20px;
     display: flex;
+    
     transition: 500ms;
     user-select: none;
 }
@@ -82,17 +88,46 @@ body {
   display: none;
 }
 
+.homeLinks{
+  display: none;
+  transition: 500ms;
+  user-select: none;
+}
+
 .showMenu{
-    
-    right: 15px
+    right: 0px;
+    position: absolute;
+    background: oklch(44.4% 0.177 26.899);
 }
 
 .hideMenu{
-    right: -200px
+    right: -250px
    
 }
 
-@media (min-width: 526px){
+.staticLinks{
+  display: flex;
+}
+
+@media (max-width: 400px){
+    .homeLinks{
+      display: flex;
+    }
+    .staticLinks{
+      display: none;
+    }
+}
+
+@media (min-width: 400px){
+    .homeLinks{
+      display: none;
+    }
+    .staticLinks{
+      display: flex;
+    }
+}
+
+@media (min-width: 770px){
     .showLinks{
       display: none;
     }

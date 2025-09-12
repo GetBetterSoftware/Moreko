@@ -1,11 +1,11 @@
-import UserAuth from "@/components/UserAuth";
+import Login from "@/components/HomePage/Login";
 
 
 
 export default function Home() {
   return (
     <div className="">   
-        <UserAuth/>
+        <Login/>
     </div>
   );
 }

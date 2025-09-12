@@ -5,6 +5,11 @@
     margin: auto;
 }
 
+.navbar{
+    max-width: min(1920px, 100vw) !important;
+    margin: auto;
+}
+
     .menu{
         display: none;
     }
@@ -30,14 +35,16 @@
 
 
 
-@media (max-width: 540px){
+@media (max-width: 760px){
     .menu{
         display: flex;
     }
     .buttons{
         display: none;
     }
-    
+    .title{
+        display: none;
+    }
 }
 
 @media (max-width: 355px){

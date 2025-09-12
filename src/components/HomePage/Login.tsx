@@ -2,11 +2,13 @@
 import React, { useState } from "react";
 
 import { GraduationCap, User, Users } from "lucide-react";
-import { Card } from "./ui/card";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
-import { Button } from "./ui/button";
+import { Card } from "../ui/card";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import { Button } from "../ui/button";
 import Link from "next/link";
+import Image from "next/image";
+import NavBar from "./NavBar";
 
 interface UserAuthProps {
   onLogin: (user: {
@@ -18,13 +20,16 @@ interface UserAuthProps {
   onBack: () => void;
 }
 
-const UserAuth = () => {
+const Login = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-red-50 to-white flex items-center justify-center p-4">
-      <Card className="w-full max-w-md p-8 shadow-lg">
+    <>
+    <NavBar/>
+    <div className="min-h-screen bg-red-800 flex items-center justify-center p-4">
+      
+      <Card className="w-full max-w-sm p-8 bg-amber-50">
         <div className="text-center mb-8">
           <div className="mx-auto w-16 h-16 bg-red-800 rounded-full flex items-center justify-center mb-4">
-            <GraduationCap className="w-8 h-8 text-white" />
+           <Image src={"/images/LOGO.svg"} width={40} height={40} alt='LOGO'/>
           </div>
           <h1 className="text-2xl font-bold text-gray-900">
             Moreko High School
@@ -75,7 +80,9 @@ const UserAuth = () => {
         </div>
       </Card>
     </div>
+    </>
+    
   );
 };
 
-export default UserAuth;
+export default Login;
