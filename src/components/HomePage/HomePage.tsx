@@ -122,15 +122,19 @@ const HomePage = () => {
           <p className="text-xl md:text-2xl mb-8 text-red-100">
             {schoolInfo.motto}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center"> 
-            <Button size="lg"  className="bg-white text-red-800 hover:bg-gray-100 cursor-pointer">
+          <div className="flex flex-col sm:flex-row gap-7 justify-center">
+            <Link href="/register" className="bg-white text-red-800 hover:bg-gray-100 cursor-pointer rounded-md">
+            <Button size="lg"  >
               <LogIn className="w-5 h-5 mr-2" />
               Join Our Digital Platform
             </Button>
+            </Link>
+             <Link href="/#about" className="bg-white text-red-800 hover:bg-gray-100 cursor-pointer rounded-md">
             <Button size="lg" variant="outline" className="border-white hover:bg-gray-100 text-red-800 cursor-pointer">
               <BookOpen className="w-5 h-5 mr-2" />
               Learn More About Us
             </Button>
+            </Link>
           </div>
         </div>
       </section>
@@ -145,6 +149,7 @@ const HomePage = () => {
               Our digital magazine, news articles, downloadable resources, and communication features are available to registered students and parents only.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link href="/register" className="bg-white text-red-800 hover:bg-gray-100 cursor-pointer" >
               <Button 
                 size="lg" 
                 className="bg-red-800 hover:bg-red-900 text-white cursor-pointer"
@@ -153,6 +158,7 @@ const HomePage = () => {
                 <Users className="w-5 h-5 mr-2" />
                 Register / Sign In
               </Button>
+              </Link>
 
                <Button className="bg-white text-red-800 hover:bg-gray-100 cursor-pointer"size="lg">
                 <Calendar className="w-5 h-5 mr-2" />
@@ -295,10 +301,12 @@ const HomePage = () => {
           </div>
 
           <div className="text-center mt-8">
+            <Link href="/login" className="hover:disabled">
             <Button size="lg"  className="bg-red-800 hover:bg-red-900 text-white cursor-pointer">
               <LogIn className="w-5 h-5 mr-2" />
               Sign In to Access Platform
             </Button>
+            </Link>
           </div>
         </section>
 
