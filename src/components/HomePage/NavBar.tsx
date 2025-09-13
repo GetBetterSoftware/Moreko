@@ -1,5 +1,5 @@
 "use client"
-import {  Book, HamburgerIcon, Home, ImageDown, Menu, MenuIcon, Settings, User, X } from 'lucide-react';
+import {  Book, DoorOpen, HamburgerIcon, Home, ImageDown, Menu, MenuIcon, Settings, User, X } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useState } from 'react';
@@ -60,14 +60,16 @@ const NavButtons = () => {
                 Sign In
               </Button>
               </Link>
+              <Link href="/register" className="hover:disabled">
               <Button
                 variant="outline"
                 
                 className="text-red-800 border-white hover:bg-gray-100 cursor-pointer"
               >
-                <Settings className="w-4 h-4 mr-2" />
-                Admin
+                <DoorOpen className="w-4 h-4 mr-2" />
+                Register
               </Button>
+              </Link>
     </div>
   );
 }
@@ -109,14 +111,14 @@ const NavLinks = ({menu}: any) => {
               <Link href="/login"  className="text-red-800 border-white hover:bg-gray-100 cursor-pointer flex flex-row items-center p-3 w-50 bg-white rounded">
 
                 <User className="w-4 h-4 mr-2" />
-                Sign In
+                Log In
               </Link>
               <Link
                 href={"/"}
                 className="text-red-800 border-white hover:bg-gray-100 cursor-pointer flex flex-row items-center p-3 w-50 bg-white rounded"
               >
-                <Settings className="w-4 h-4 mr-2" />
-                Admin
+                <DoorOpen className="w-4 h-4 mr-2" />
+                Sign Up
               </Link>
       </div>
     )

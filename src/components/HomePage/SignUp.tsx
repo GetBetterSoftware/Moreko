@@ -7,83 +7,131 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import Link from "next/link";
-import NavBar from "./NavBar";
 import Image from "next/image";
+import NavBar from "./NavBar";
+import styles from "@/components/styles/HomepageStyles.module.css";
+import { Field, Form, Formik } from "formik";
 
-const SignUp = () => {
+interface UserAuthProps {
+  onLogin: (user: {
+    id: string;
+    email: string;
+    role: "admin" | "student" | "parent";
+    name: string;
+  }) => void;
+  onBack: () => void;
+}
 
-    const initValues = {
-        email: '',
-        password: '',
-        confirmPassword: '',
-        name: '',
-        role: '',
-        id: '',
-        token: ''
-    }
+const Login = () => {
+  const initValues = {
+    email: "",
+    password: "",
+    confirmPassword: "",
+    name: "",
+    role: "",
+    id: "",
+    token: "",
+  };
 
   return (
-    <>
-    <NavBar/>
-    <div className="min-h-screen bg-gradient-to-br from-red-50 to-white flex items-center justify-center p-4">
-        
-      <Card className="w-full max-w-md p-8 shadow-lg">
-        <div className="text-center mb-8">
-          <div className="mx-auto w-16 h-16 bg-red-800 rounded-full flex items-center justify-center mb-4">
-          <Image src={"/images/LOGO.svg"} width={40} height={40} alt='LOGO'/>
-          </div>
-          <h1 className="text-2xl font-bold text-gray-900">
-            Moreko High School
-          </h1>
-          <p className="text-gray-600 mt-2">Sign In</p>
-        </div>
-
-        <form className="space-y-6">
-          <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
-              type="email"
-              placeholder="Enter your email"
-              required
-            />
-          </div>
-
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
-              type="password"
-              placeholder="Enter your password"
-              required
-            />
-          </div>
-
-          <Button
-            type="submit"
-            className="w-full bg-red-800 hover:bg-red-900 text-white"
+    <React.Fragment>
+      <NavBar />
+      <div className="min-h-screen bg-red-800 flex justify-center p-4 ">
+        <div
+          className={`p-8 bg-white flex items-center justify-center h-fit mt-20 rounded-md ${styles.login}`}
+        >
+          <Card
+            className={`rounded-none max-w-sm flex flex-col space-x-7 ${styles.card}`}
           >
-            Sign In
-          </Button>
-        </form>
+            <h1 className="font-bold text-gray-800 mb-4 text-center">
+              Welcome to Moreko High School
+            </h1>
+            <p className="text-gray-600 mt-2 text-center">
+              Excellence in Education
+            </p>
+          </Card>
+          <Card className={`p-8 ${styles.form}`}>
+            <div className="text-center mb-8">
+              <div className="mx-auto w-20 h-20 bg-red-800 rounded-full flex items-center justify-center mb-4">
+                <Image
+                  src={"/images/LOGO.svg"}
+                  width={40}
+                  height={40}
+                  alt="LOGO"
+                />
+              </div>
+              <h1 className="text-4xl font-bold text-gray-800">Register</h1>
+            </div>
+            <Formik
+              initialValues={initValues}
+              onSubmit={(values) => console.log(values)}
+            >
+              {() => (
+                <Form className="space-y-6">
+                  <StepOne />
 
-        <div className="mt-6 text-center space-y-2">
-          <div className="text-sm text-gray-600">
-            Don't have an account? Sign up
-          </div>
+                  <Button
+                    type="submit"
+                    className="w-full bg-red-800 hover:bg-red-900 text-white"
+                  >
+                    Sign In
+                  </Button>
+                </Form>
+              )}
+            </Formik>
 
-          <Link
-            href="/"
-            className="text-sm text-gray-600 cursor-pointer"
-          >
-            ← Go to Home page
-          </Link>
+            <div className="mt-6 text-center space-y-2">
+              <div className="text-sm text-gray-600">
+                Don't have an account? Sign up
+              </div>
+
+              <Link href="/" className="text-sm text-gray-600 cursor-pointer">
+                ← Go to Home page
+              </Link>
+            </div>
+          </Card>
         </div>
-      </Card>
-    </div>
-    </>
-    
+      </div>
+    </React.Fragment>
   );
 };
 
-export default SignUp;
+export default Login;
+
+const StepOne = () => {
+  return (
+    <>
+    <div className="space-y-2">
+        <Label htmlFor="email">Full Name</Label>
+        <Field
+          type="name"
+          id="name"
+          name="name"
+          required
+          className="mt-1 block w-full px-4 py-2 border outline-none border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
+        />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="email">Email</Label>
+        <Field
+          type="email"
+          id="email"
+          name="email"
+          required
+          className="mt-1 block w-full px-4 py-2 border outline-none border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
+        />
+      </div>
+
+      <div className="space-y-2">
+        <Label htmlFor="password">Password</Label>
+        <Field
+          type="password"
+          id="password"
+          name="password"
+          required
+          className="mt-1 block w-full px-4 py-2 border outline-none border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
+        />
+      </div>
+    </>
+  );
+};

@@ -9,6 +9,7 @@ import { Button } from "../ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import NavBar from "./NavBar";
+import styles from "@/components/styles/HomepageStyles.module.css"
 
 interface UserAuthProps {
   onLogin: (user: {
@@ -24,37 +25,47 @@ const Login = () => {
   return (
     <>
     <NavBar/>
-    <div className="min-h-screen bg-red-800 flex items-center justify-center p-4">
-      
-      <Card className="w-full max-w-sm p-8 bg-amber-50">
+    <div className="min-h-screen bg-red-800 flex justify-center p-4 ">
+      <div className={`p-8 bg-white flex items-center justify-center h-fit mt-20 rounded-md ${styles.login}`}>
+        <Card className={`rounded-none max-w-sm flex flex-col space-x-7 ${styles.card}`}>
+        <h1 className="font-bold text-gray-800 mb-4 text-center">
+          Welcome to Moreko High School
+        </h1>
+        <p className="text-gray-600 mt-2 text-center">Excellence in Education</p>
+      </Card>
+      <Card className={`p-8 ${styles.form}`}>
         <div className="text-center mb-8">
-          <div className="mx-auto w-16 h-16 bg-red-800 rounded-full flex items-center justify-center mb-4">
+          <div className="mx-auto w-20 h-20 bg-red-800 rounded-full flex items-center justify-center mb-4">
            <Image src={"/images/LOGO.svg"} width={40} height={40} alt='LOGO'/>
           </div>
-          <h1 className="text-2xl font-bold text-gray-900">
-            Moreko High School
+          <h1 className="text-4xl font-bold text-gray-800">
+            Login
           </h1>
-          <p className="text-gray-600 mt-2">Sign In</p>
+          
         </div>
 
         <form className="space-y-6">
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
-            <Input
-              id="email"
+            <input
               type="email"
-              placeholder="Enter your email"
+              id="email"
+              name="email"
               required
+      
+              className="mt-1 block w-full px-4 py-2 border outline-none border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
             />
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="password">Password</Label>
-            <Input
-              id="password"
+             <input
               type="password"
-              placeholder="Enter your password"
+              id="password"
+              name="password"
               required
+      
+              className="mt-1 block w-full px-4 py-2 border outline-none border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
             />
           </div>
 
@@ -68,7 +79,7 @@ const Login = () => {
 
         <div className="mt-6 text-center space-y-2">
           <div className="text-sm text-gray-600">
-            Don't have an account? Sign up
+            Don't have an account? <Link href="/register">Sign Up</Link>
           </div>
 
           <Link
@@ -79,6 +90,8 @@ const Login = () => {
           </Link>
         </div>
       </Card>
+      </div>
+      
     </div>
     </>
     

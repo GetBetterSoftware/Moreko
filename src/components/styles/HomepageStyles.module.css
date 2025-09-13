@@ -1,56 +1,77 @@
-.styles{
-    backface-visibility: hidden;
-    background-color: rgb(255, 255, 255);
-    max-width: min(1920px, 100vw) !important;
-    margin: auto;
+.styles {
+  backface-visibility: hidden;
+  background-color: rgb(255, 255, 255);
+  max-width: min(1920px, 100vw) !important;
+  margin: auto;
 }
 
-.navbar{
-    max-width: min(1920px, 100vw) !important;
-    margin: auto;
+.navbar {
+  max-width: min(1920px, 100vw) !important;
+  margin: auto;
 }
 
-    .menu{
-        display: none;
-    }
-    .buttons{
-        display: flex;
-    }
-    .title{
-        display: block;
-    }
-
-
-@media (min-width: 541px){
-    .menu{
-        display: none;
-    }
-    .buttons{
-        display: flex;
-    }
-    .title{
-        display: block;
-    }
+.menu {
+  display: none;
+}
+.buttons {
+  display: flex;
+}
+.title {
+  display: block;
 }
 
 
-
-@media (max-width: 760px){
-    .menu{
-        display: flex;
-    }
-    .buttons{
-        display: none;
-    }
-    .title{
-        display: none;
-    }
+.login {
+  display: flex;
+  flex-direction: row;
+  width: min(1000px, 90vw);
 }
 
-@media (max-width: 355px){
-    .title{
-        display: none;
-    }
+.form{
+    width: min(420px, 90vw);
+}
+.card{
+    width: min(420px, 90vw);
     
 }
 
+.card h1{
+    font-size: clamp(25px, 2.5vw, 2rem);
+}
+@media (min-width: 541px) {
+  .menu {
+    display: none;
+  }
+  .buttons {
+    display: flex;
+  }
+  .title {
+    display: block;
+  }
+}
+
+@media (max-width: 760px) {
+  .menu {
+    display: flex;
+  }
+  .buttons {
+    display: none;
+  }
+  .title {
+    display: none;
+  }
+ 
+}
+
+@media (max-width: 940px) {
+   .login{
+    flex-direction: column;
+  }
+    
+}
+
+@media (max-width: 355px) {
+  .title {
+    display: none;
+  }
+}
