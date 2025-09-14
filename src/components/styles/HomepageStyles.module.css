@@ -60,8 +60,25 @@
   .title {
     display: none;
   }
+  .dashbuttons {
+    display: none;
+  }
+
  
 }
+
+@media (min-width: 789px) {
+  .dashbuttons {
+    display: flex;
+  }
+}
+
+@media (max-width: 788px) {
+  .dashbuttons {
+    display: none;
+  }
+}
+
 
 @media (max-width: 940px) {
    .login{
