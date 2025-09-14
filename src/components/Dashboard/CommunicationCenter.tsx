@@ -10,11 +10,11 @@ import {
   Eye,
   Download
 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Button } from './ui/button';
-import { Label } from './ui/label';
-import { Input } from './ui/input';
-import { Textarea } from './ui/textarea';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Button } from '../ui/button';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
+import { Textarea } from '../ui/textarea';
 
 
 const CommunicationCenter = () => {
@@ -72,18 +72,18 @@ const CommunicationCenter = () => {
           <div className="flex space-x-4">
             <Button
               type="button"
-              variant={message.type === 'sms' ? 'default' : 'outline'}
+              variant="default"
               onClick={() => setMessage({...message, type: 'sms'})}
-              className="flex-1"
+              className={message.type === 'sms' ? 'flex-1 bg-red-800 text-white' : 'flex-1 bg-white shadow-sm cursor-pointer'}
             >
               <MessageSquare className="w-4 h-4 mr-2" />
               SMS
             </Button>
             <Button
               type="button"
-              variant={message.type === 'email' ? 'default' : 'outline'}
+              variant="default"
               onClick={() => setMessage({...message, type: 'email'})}
-              className="flex-1"
+              className={message.type === 'email' ? 'flex-1 bg-red-800 text-white' : 'flex-1 bg-white shadow-sm cursor-pointer'}
             >
               <Mail className="w-4 h-4 mr-2" />
               Email
@@ -94,7 +94,7 @@ const CommunicationCenter = () => {
             <Label htmlFor="recipients">Send to</Label>
             <select
               id="recipients"
-              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+             className="mt-1 block w-full px-4 py-2 border outline-none border-gray-300 rounded-md shadow-sm focus:ring-red-800 focus:border-red-800"
               value={message.recipients}
               onChange={(e) => setMessage({...message, recipients: e.target.value})}
             >
@@ -107,8 +107,9 @@ const CommunicationCenter = () => {
           {message.type === 'email' && (
             <div className="space-y-2">
               <Label htmlFor="subject">Subject</Label>
-              <Input
+              <input
                 id="subject"
+                className="mt-1 block w-full px-4 py-2 border outline-none border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
                 placeholder="Enter email subject"
                 value={message.subject}
                 onChange={(e) => setMessage({...message, subject: e.target.value})}
@@ -119,9 +120,10 @@ const CommunicationCenter = () => {
 
           <div className="space-y-2">
             <Label htmlFor="content">Message</Label>
-            <Textarea
+            <textarea
               id="content"
               rows={6}
+              className="mt-1 block w-full px-4 py-2 border outline-none border-gray-300 rounded-md shadow-sm focus:ring-red-800 focus:border-red-800"
               placeholder={message.type === 'sms' ? 'Enter SMS message (160 chars max)' : 'Enter email content'}
               value={message.content}
               onChange={(e) => setMessage({...message, content: e.target.value})}
@@ -135,7 +137,7 @@ const CommunicationCenter = () => {
             )}
           </div>
 
-          <Button type="submit" className="w-full bg-red-800 hover:bg-red-900">
+          <Button type="submit" className="w-full bg-red-800 text-white hover:bg-red-900">
             <Send className="w-4 h-4 mr-2" />
             Send {message.type.toUpperCase()}
           </Button>

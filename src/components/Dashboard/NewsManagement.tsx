@@ -9,10 +9,12 @@ import {
   Calendar,
   Image as ImageIcon
 } from 'lucide-react';
-import { Button } from './ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Label } from './ui/label';
-import { Input } from './ui/input';
+import { Button } from '../ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
+
+
 
 const NewsManagement = () => {
   const [showAddForm, setShowAddForm] = useState(false);
@@ -52,7 +54,7 @@ const NewsManagement = () => {
         </div>
         <Button 
           onClick={() => setShowAddForm(!showAddForm)} 
-          className="bg-red-800 hover:bg-red-900"
+          className="bg-red-800 hover:bg-red-900 text-white cursor-pointer"
         >
           <PlusCircle className="w-4 h-4 mr-2" />
           Add New Article

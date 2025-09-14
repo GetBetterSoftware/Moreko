@@ -17,8 +17,10 @@ import LibraryManagement from './LibraryManagement';
 import GalleryManagement from './GalleryManagement';
 import CommunicationCenter from './CommunicationCenter';
 import ContentApproval from './ContentApproval';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Button } from './ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Button } from '@/components/ui/button';
+import styles from "@/components/styles/DashboardStyles.module.css"
+import DashNavBar from './DashboardNav';
 
 interface AdminDashboardProps {
   onLogout: () => void;
@@ -39,7 +41,7 @@ const AdminDashboard = () => {
       case 'news':
         return <NewsManagement />;
       case 'library':
-        return <LibraryManagement />;
+        return <LibraryManagement  />;
       case 'gallery':
         return <GalleryManagement />;
       case 'communication':
@@ -50,9 +52,9 @@ const AdminDashboard = () => {
         return (
           <div className="space-y-8">
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 ">
               {stats.map((stat, index) => (
-                <Card key={index} className="hover:shadow-lg transition-shadow">
+                <Card key={index} className="hover:shadow-lg shadow-sm shadow-gray-100 transition-shadow border-1 border-none bg-white">
                   <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
                     <CardTitle className="text-sm font-medium">{stat.title}</CardTitle>
                     <stat.icon className={`h-4 w-4 ${stat.color}`} />
@@ -73,7 +75,7 @@ const AdminDashboard = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                   <Button 
                     onClick={() => setActiveView('news')} 
-                    className="h-20 bg-red-800 hover:bg-red-900"
+                    className='border-none cursor-pointer shadow-md hover:shadow-sm h-20 bg-white'
                   >
                     <div className="text-center">
                       <PlusCircle className="w-6 h-6 mx-auto mb-2" />
@@ -84,7 +86,7 @@ const AdminDashboard = () => {
                   <Button 
                     onClick={() => setActiveView('communication')} 
                     variant="outline" 
-                    className="h-20"
+                    className='border-none cursor-pointer shadow-md hover:shadow-sm h-20 bg-white'
                   >
                     <div className="text-center">
                       <MessageSquare className="w-6 h-6 mx-auto mb-2" />
@@ -95,7 +97,7 @@ const AdminDashboard = () => {
                   <Button 
                     onClick={() => setActiveView('approval')} 
                     variant="outline" 
-                    className="h-20"
+                    className='border-none cursor-pointer shadow-md hover:shadow-sm h-20 bg-white'
                   >
                     <div className="text-center">
                       <CheckSquare className="w-6 h-6 mx-auto mb-2" />
@@ -106,7 +108,7 @@ const AdminDashboard = () => {
                   <Button 
                     onClick={() => setActiveView('library')} 
                     variant="outline" 
-                    className="h-20"
+                    className='border-none cursor-pointer shadow-md hover:shadow-sm h-20 bg-white'
                   >
                     <div className="text-center">
                       <BookOpen className="w-6 h-6 mx-auto mb-2" />
@@ -153,35 +155,17 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className={`${styles.styles} `}>
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3">
-              <div className="w-8 h-8 bg-red-800 rounded-lg flex items-center justify-center">
-                <FileText className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h1 className="text-lg font-semibold text-gray-900">Moreko High School</h1>
-                <p className="text-sm text-gray-500">Admin Dashboard</p>
-              </div>
-            </div>
-            <Button variant="outline"  className="flex items-center space-x-2">
-              <LogOut className="w-4 h-4" />
-              <span>Logout</span>
-            </Button>
-          </div>
-        </div>
-      </header>
+      <DashNavBar />  
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-screen mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-16">
         {/* Navigation */}
         <nav className="flex flex-wrap gap-2 mb-8">
           <Button
             variant={activeView === 'dashboard' ? 'default' : 'outline'}
             onClick={() => setActiveView('dashboard')}
-            className={activeView === 'dashboard' ? 'bg-red-800 hover:bg-red-900' : ''}
+            className={activeView === 'dashboard' ? 'bg-red-800 hover:bg-red-900 text-white' : 'border-none cursor-pointer shadow-md hover:shadow-sm'}
           >
             <BarChart3 className="w-4 h-4 mr-2" />
             Dashboard
@@ -189,7 +173,7 @@ const AdminDashboard = () => {
           <Button
             variant={activeView === 'news' ? 'default' : 'outline'}
             onClick={() => setActiveView('news')}
-            className={activeView === 'news' ? 'bg-red-800 hover:bg-red-900' : ''}
+            className={activeView === 'news' ? 'bg-red-800 hover:bg-red-900 text-white' : 'border-none cursor-pointer shadow-md hover:shadow-sm'}
           >
             <FileText className="w-4 h-4 mr-2" />
             News
@@ -197,7 +181,7 @@ const AdminDashboard = () => {
           <Button
             variant={activeView === 'communication' ? 'default' : 'outline'}
             onClick={() => setActiveView('communication')}
-            className={activeView === 'communication' ? 'bg-red-800 hover:bg-red-900' : ''}
+            className={activeView === 'communication' ? 'bg-red-800 hover:bg-red-900 text-white' : 'border-none cursor-pointer shadow-md hover:shadow-sm'}
           >
             <MessageSquare className="w-4 h-4 mr-2" />
             Communications
@@ -205,7 +189,7 @@ const AdminDashboard = () => {
           <Button
             variant={activeView === 'approval' ? 'default' : 'outline'}
             onClick={() => setActiveView('approval')}
-            className={activeView === 'approval' ? 'bg-red-800 hover:bg-red-900' : ''}
+            className={activeView === 'approval' ? 'bg-red-800 hover:bg-red-900 text-white' : 'border-none cursor-pointer shadow-md hover:shadow-sm'}
           >
             <CheckSquare className="w-4 h-4 mr-2" />
             Content Approval
@@ -213,7 +197,7 @@ const AdminDashboard = () => {
           <Button
             variant={activeView === 'library' ? 'default' : 'outline'}
             onClick={() => setActiveView('library')}
-            className={activeView === 'library' ? 'bg-red-800 hover:bg-red-900' : ''}
+            className={activeView === 'library' ? 'bg-red-800 hover:bg-red-900 text-white' : 'border-none cursor-pointer shadow-md hover:shadow-sm'}
           >
             <BookOpen className="w-4 h-4 mr-2" />
             Library
@@ -221,7 +205,7 @@ const AdminDashboard = () => {
           <Button
             variant={activeView === 'gallery' ? 'default' : 'outline'}
             onClick={() => setActiveView('gallery')}
-            className={activeView === 'gallery' ? 'bg-red-800 hover:bg-red-900' : ''}
+            className={activeView === 'gallery' ? 'bg-red-800 hover:bg-red-900 text-white' : 'border-none cursor-pointer shadow-md hover:shadow-sm'}
           >
             <Image className="w-4 h-4 mr-2" />
             Gallery

@@ -114,7 +114,7 @@ const HomePage = () => {
       {/* Header */}
       <NavBar />
       {/* Hero Banner */}
-      <section className="bg-gradient-to-r from-red-800 to-red-600 flex flex-col items-center justify-center py-16 text-white  min-h-70 mt-16">
+      <section className="bg-gradient-to-r from-red-800 to-red-600 flex flex-col items-center justify-center py-16 text-gray-100  min-h-70 mt-16">
         <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl md:text-6xl font-bold mb-4">
             Welcome to Moreko High School
@@ -123,14 +123,14 @@ const HomePage = () => {
             {schoolInfo.motto}
           </p>
           <div className="flex flex-col sm:flex-row gap-7 justify-center">
-            <Link href="/register" className="bg-white text-red-800 hover:bg-gray-100 cursor-pointer rounded-md">
+            <Link href="/register" className="bg-gray-100 text-red-800 hover:bg-gray-200 cursor-pointer rounded-md">
             <Button size="lg"  >
               <LogIn className="w-5 h-5 mr-2" />
               Join Our Digital Platform
             </Button>
             </Link>
-             <Link href="/#about" className="bg-white text-red-800 hover:bg-gray-100 cursor-pointer rounded-md">
-            <Button size="lg" variant="outline" className="border-white hover:bg-gray-100 text-red-800 cursor-pointer">
+             <Link href="/#about" className="bg-gray-100 text-red-800 hover:bg-gray-200 cursor-pointer rounded-md">
+            <Button size="lg" variant="outline" className="border-gray-100 hover:bg-gray-100 text-red-800 cursor-pointer">
               <BookOpen className="w-5 h-5 mr-2" />
               Learn More About Us
             </Button>
@@ -149,10 +149,10 @@ const HomePage = () => {
               Our digital magazine, news articles, downloadable resources, and communication features are available to registered students and parents only.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/register" className="bg-white text-red-800 hover:bg-gray-100 cursor-pointer" >
+              <Link href="/register" className="bg-gray-100 text-red-800 hover:bg-gray-100 cursor-pointer" >
               <Button 
                 size="lg" 
-                className="bg-red-800 hover:bg-red-900 text-white cursor-pointer"
+                className="bg-red-800 hover:bg-red-900 text-gray-100 cursor-pointer"
                
               >
                 <Users className="w-5 h-5 mr-2" />
@@ -160,7 +160,7 @@ const HomePage = () => {
               </Button>
               </Link>
 
-               <Button className="bg-white text-red-800 hover:bg-gray-100 cursor-pointer"size="lg">
+               <Button className="bg-gray-50 text-red-800 hover:bg-gray-100 cursor-pointer"size="lg">
                 <Calendar className="w-5 h-5 mr-2" />
                 View School Calendar
               </Button>
@@ -256,7 +256,7 @@ const HomePage = () => {
         </section>
 
         {/* Platform Features Preview */}
-        <section className="mb-16 bg-gray-50 rounded-lg p-8">
+        <section className="mb-16 bg-white  rounded-lg p-8">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-900">What's Available on Our Digital Platform</h2>
             <p className="text-gray-600 mt-2">Sign in to access these exclusive features</p>
@@ -302,7 +302,7 @@ const HomePage = () => {
 
           <div className="text-center mt-8">
             <Link href="/login" className="hover:disabled">
-            <Button size="lg"  className="bg-red-800 hover:bg-red-900 text-white cursor-pointer">
+            <Button size="lg"  className="bg-red-800 hover:bg-red-900 text-gray-100 cursor-pointer">
               <LogIn className="w-5 h-5 mr-2" />
               Sign In to Access Platform
             </Button>
@@ -311,10 +311,10 @@ const HomePage = () => {
         </section>
 
         {/* Latest News Section */}
-        <section className="mb-16">
+        <section className="mb-16 bg-white  rounded-lg p-8">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-3xl font-bold text-gray-900">Latest News</h2>
-            <Button className="bg-white text-red-800 hover:bg-gray-100 cursor-pointer">View All News</Button>
+            <Button className="bg-gray-100 text-red-800 hover:bg-gray-100 cursor-pointer">View All News</Button>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -342,10 +342,10 @@ const HomePage = () => {
         </section>
 
           {/* Gallery Highlights Section */}
-        <section className="mb-16">
+        <section className="mb-16 bg-white  rounded-lg p-8">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-3xl font-bold text-gray-900">Gallery Highlights</h2>
-            <Button className="bg-white text-red-800 hover:bg-gray-100 cursor-pointer">View Full Gallery</Button>
+            <Button className="bg-gray-100 text-red-800 hover:bg-gray-100 cursor-pointer">View Full Gallery</Button>
           </div>
           
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -366,7 +366,7 @@ const HomePage = () => {
 
 
       {/* Footer */}
-      <footer className="bg-red-800 text-white py-12">
+      <footer className="bg-red-800 text-gray-100 py-12">
         <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div>
@@ -385,10 +385,10 @@ const HomePage = () => {
             <div>
               <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
               <ul className="space-y-2 text-red-200">
-                <li><Button variant="link"  className="text-red-200 hover:text-white p-0 h-auto cursor-pointer">Digital Platform</Button></li>
-                <li><a href="#achievements" className="hover:text-white">Our Achievements</a></li>
-                <li><a href="#about" className="hover:text-white">About Us</a></li>
-                <li><Button variant="link"  className="text-red-200 hover:text-white p-0 h-auto cursor-pointer">Admin Portal</Button></li>
+                <li><Button variant="link"  className="text-red-200 hover:text-gray-100 p-0 h-auto cursor-pointer">Digital Platform</Button></li>
+                <li><a href="#achievements" className="hover:text-gray-100">Our Achievements</a></li>
+                <li><a href="#about" className="hover:text-gray-100">About Us</a></li>
+                <li><Button variant="link"  className="text-red-200 hover:text-gray-100 p-0 h-auto cursor-pointer">Admin Portal</Button></li>
               </ul>
             </div>
             

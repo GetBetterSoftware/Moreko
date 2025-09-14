@@ -9,11 +9,11 @@ import {
   Users,
   MessageSquare
 } from 'lucide-react';
-import { Badge } from './ui/badge';
-import { Button } from './ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Label } from './ui/label';
-import { Input } from './ui/input';
+import { Badge } from '../ui/badge';
+import { Button } from '../ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Label } from '../ui/label';
+import { Input } from '../ui/input';
 
 interface MessageRecord {
   id: string;

@@ -7,11 +7,11 @@ import { Button } from '../ui/button';
 import styles from "@/components/styles/HomepageStyles.module.css"
 import Hamburger from 'hamburger-react';
 
-const NavBar = () => {
+const DashNavBar = () => {
     const [showMenu, setShowMenu] = useState(false)
     
     return (
-        <header className={`text-gray-100 shadow-lg px-5 bg-red-800 absolute max-w-screen top-0 left-0 right-0 ${styles.navbar}` }>
+        <header className={`text-white shadow-lg px-5 bg-red-800 absolute max-w-screen top-0 left-0 right-0 ${styles.navbar}` }>
         
           <div className="flex justify-between items-center min-h-20">
             <div className="flex items-center space-x-3">
@@ -54,22 +54,13 @@ const NavButtons = () => {
               <Button
                 variant="outline"
                 
-                className="text-red-800 border-none bg-gray-100 cursor-pointer"
+                className="text-red-800 border-white hover:bg-gray-100 cursor-pointer"
               >
                 <User className="w-4 h-4 mr-2" />
-                Sign In
+                Sign Out
               </Button>
               </Link>
-              <Link href="/register" className="hover:disabled">
-              <Button
-                variant="outline"
-                
-                className="text-red-800 border-none bg-gray-100 cursor-pointer"
-              >
-                <DoorOpen className="w-4 h-4 mr-2" />
-                Register
-              </Button>
-              </Link>
+              
     </div>
   );
 }
@@ -96,33 +87,27 @@ const NavLinks = ({menu}: any) => {
     return (
         <div className={`flex flex-col items-end space-y-2  fixed top-20 showLinks w-full  py-5 `} id="menu">
          
-              <Link href="/"  className={`text-red-800 border-none hover:bg-gray-100 cursor-pointer flex flex-row items-center p-3 w-50 bg-gray-100 rounded homeLinks`}>
+              <Link href="/"  className={`text-red-800 border-white hover:bg-gray-100 cursor-pointer flex flex-row items-center p-3 w-50 bg-white rounded homeLinks`}>
               <Home className="w-4 h-4 mr-2" />
               Home</Link>
 
-              <Link href="/#about"  className={`text-red-800 border-none hover:bg-gray-100 cursor-pointer flex flex-row items-center p-3 w-50 bg-gray-100 rounded homeLinks`}>
+              <Link href="/#about"  className={`text-red-800 border-white hover:bg-gray-100 cursor-pointer flex flex-row items-center p-3 w-50 bg-white rounded homeLinks`}>
               <Book className="w-4 h-4 mr-2" />
               About</Link>
 
-              <Link href="/#gallery"  className={`text-red-800 border-none hover:bg-gray-100 cursor-pointer flex flex-row items-center p-3 w-50 bg-gray-100 rounded homeLinks`}>
+              <Link href="/#gallery"  className={`text-red-800 border-white hover:bg-gray-100 cursor-pointer flex flex-row items-center p-3 w-50 bg-white rounded homeLinks`}>
               <ImageDown className="w-4 h-4 mr-2" />
               Gallery</Link>
             
-              <Link href="/login"  className="text-red-800 border-none hover:bg-gray-100 cursor-pointer flex flex-row items-center p-3 w-50 bg-gray-100 rounded">
+              <Link href="/login"  className="text-red-800 border-white hover:bg-gray-100 cursor-pointer flex flex-row items-center p-3 w-50 bg-white rounded">
 
                 <User className="w-4 h-4 mr-2" />
-                Log In
+                Sign Out
               </Link>
-              <Link
-                href={"/"}
-                className="text-red-800 border-none hover:bg-gray-100 cursor-pointer flex flex-row items-center p-3 w-50 bg-gray-100 rounded"
-              >
-                <DoorOpen className="w-4 h-4 mr-2" />
-                Sign Up
-              </Link>
+              
       </div>
     )
 }
 
 
-export default NavBar;
+export default DashNavBar;

@@ -4,13 +4,13 @@ import { useState } from 'react';
 
 import { Send, Eye, Users, Link, TestTube } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Label } from './ui/label';
-import { Textarea } from './ui/textarea';
-import { Input } from './ui/input';
-import { Button } from './ui/button';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from './ui/dialog';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Label } from '../ui/label';
+import { Textarea } from '../ui/textarea';
+import { Input } from '../ui/input';
+import { Button } from '../ui/button';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '../ui/dialog';
 
 interface Contact {
   id: string;

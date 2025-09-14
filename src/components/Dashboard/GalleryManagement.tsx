@@ -8,10 +8,10 @@ import {
   Edit,
   Eye
 } from 'lucide-react';
-import { Button } from './ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Label } from './ui/label';
-import { Input } from './ui/input';
+import { Button } from '../ui/button';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Input } from '../ui/input';
+import { Label } from '../ui/label';
 
 const GalleryManagement = () => {
   const [showUploadForm, setShowUploadForm] = useState(false);
@@ -51,7 +51,7 @@ const GalleryManagement = () => {
         </div>
         <Button 
           onClick={() => setShowUploadForm(!showUploadForm)} 
-          className="bg-red-800 hover:bg-red-900"
+          className="bg-red-800 text-white hover:bg-red-900"
         >
           <Upload className="w-4 h-4 mr-2" />
           Create Gallery
@@ -68,11 +68,11 @@ const GalleryManagement = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="galleryTitle">Gallery Title</Label>
-                <Input id="galleryTitle" placeholder="Enter gallery title" />
+                <input id="galleryTitle" placeholder="Enter gallery title" className="mt-1 block w-full px-4 py-2 border outline-none border-gray-300 rounded-md shadow-sm focus:ring-red-800 focus:border-red-800"/>
               </div>
               <div className="space-y-2">
                 <Label htmlFor="eventDate">Event Date</Label>
-                <Input id="eventDate" type="date" />
+                <input id="eventDate" type="date" className="mt-1 block w-full px-4 py-2 border outline-none border-gray-300 rounded-md shadow-sm focus:ring-red-800 focus:border-red-800"/>
               </div>
             </div>
             
@@ -81,22 +81,22 @@ const GalleryManagement = () => {
               <textarea
                 id="galleryDescription"
                 rows={3}
-                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                className="mt-1 block w-full px-4 py-2 border outline-none border-gray-300 rounded-md shadow-sm focus:ring-red-800 focus:border-red-800"
                 placeholder="Describe the event or gallery content..."
               />
             </div>
             
             <div className="space-y-2">
               <Label htmlFor="images">Upload Images</Label>
-              <Input id="images" type="file" accept="image/*" multiple />
+              <input id="images" type="file" accept="image/*" multiple className="mt-1 block w-full px-4 py-2 border outline-none border-gray-300 rounded-md shadow-sm focus:ring-red-800 focus:border-red-800"/>
               <p className="text-sm text-gray-500">
                 Select multiple images (JPG, PNG, GIF - Max 5MB each)
               </p>
             </div>
             
             <div className="flex space-x-4">
-              <Button className="bg-red-800 hover:bg-red-900">Create Gallery</Button>
-              <Button variant="outline" onClick={() => setShowUploadForm(false)}>Cancel</Button>
+              <Button className="bg-red-800 text-white hover:bg-red-900">Create Gallery</Button>
+              <Button variant="outline" onClick={() => setShowUploadForm(false)}  className="bg-gray-200 text-gray-800 border-none hover:bg-gray-300 cursor-pointer">Cancel</Button>
             </div>
           </CardContent>
         </Card>
