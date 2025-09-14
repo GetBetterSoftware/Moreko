@@ -12,13 +12,16 @@ import {
   Plus,
   Filter
 } from 'lucide-react';
-import ContactManager from './ContactManager';
-import SMSComposer from './SMSComposer';
-import MessageHistory from './MessageHistory';
-import TemplateManager from './TemplateManager';
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Button } from './ui/button';
-import PublicSite from './HomePage/HomePage';
+import ContactManager from '../ContactManager';
+import SMSComposer from '../SMSComposer';
+import MessageHistory from '../MessageHistory';
+import TemplateManager from '../TemplateManager';
+import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
+import { Button } from '../ui/button';
+import PublicSite from '../HomePage/HomePage';
+import DashNav from './DashNav';
+import styles from "@/components/styles/HomepageStyles.module.css"
+
 
 interface DashboardProps {
   onLogout: () => void;
@@ -137,37 +140,16 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50  w-screen max-w-[1440px]">
+    <div className={`${styles.styles}`}>
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="w-full mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16 w-full">
-            <div className="flex items-center space-x-4 ">
-              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-                <MessageSquare className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h1 className="text-lg font-semibold text-gray-900">Moreko High School</h1>
-                <p className="text-sm text-gray-500">SMS Admin Portal</p>
-              </div>
-            </div>
-            <Button variant={activeView === 'logout' ? 'default' : 'outline'}
-              onClick={() => setActiveView('contacts')}
-              className="flex items-center space-x-2  bg-red-800 hover:bg-red-900 cursor-pointer">
-              <LogOut className="w-4 h-4" />
-              <span>Logout</span>
-            </Button>
-          </div>
-        </div>
-      </header>
-
+      <DashNav/>
       <div className="w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Navigation */}
-        <nav className="flex space-x-4 mb-8">
+        <nav className={`flex space-x-4 mb-8 ${styles.dashbuttons}`}>
           <Button
             variant={activeView === 'dashboard' ? 'default' : 'outline'}
             onClick={() => setActiveView('dashboard')}
-            className="flex items-center space-x-2  bg-red-800 hover:bg-red-900 cursor-pointer"
+            className={`flex items-center space-x-2  bg-red-800 hover:bg-red-900 cursor-pointer  `}
           >
             <MessageSquare className="w-4 h-4" />
             <span>Dashboard</span>
@@ -175,7 +157,7 @@ const Dashboard = () => {
           <Button
             variant={activeView === 'contacts' ? 'default' : 'outline'}
             onClick={() => setActiveView('contacts')}
-            className="flex items-center space-x-2 bg-red-800 hover:bg-red-900 cursor-pointer"
+            className={`flex items-center space-x-2  bg-red-800 hover:bg-red-900 cursor-pointer  `}
           >
             <Users className="w-4 h-4" />
             <span>Contacts</span>
@@ -183,7 +165,7 @@ const Dashboard = () => {
           <Button
             variant={activeView === 'compose' ? 'default' : 'outline'}
             onClick={() => setActiveView('compose')}
-            className="flex items-center space-x-2 bg-red-800 hover:bg-red-900 cursor-pointer"
+            className={`flex items-center space-x-2  bg-red-800 hover:bg-red-900 cursor-pointer  `}
           >
             <Send className="w-4 h-4" />
             <span>Compose SMS</span>
@@ -191,7 +173,7 @@ const Dashboard = () => {
           <Button
             variant={activeView === 'history' ? 'default' : 'outline'}
             onClick={() => setActiveView('history')}
-            className="flex items-center space-x-2 bg-red-800 hover:bg-red-900 cursor-pointer"
+            className={`flex items-center space-x-2  bg-red-800 hover:bg-red-900 cursor-pointer  `}
           >
             <History className="w-4 h-4" />
             <span>History</span>
@@ -199,7 +181,7 @@ const Dashboard = () => {
           <Button
             variant={activeView === 'templates' ? 'default' : 'outline'}
             onClick={() => setActiveView('templates')}
-            className="flex items-center space-x-2 bg-red-800 hover:bg-red-900 cursor-pointer"
+            className={`flex items-center space-x-2  bg-red-800 hover:bg-red-900 cursor-pointer  `}
           >
             <FileText className="w-4 h-4" />
             <span>Templates</span>
