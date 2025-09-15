@@ -1,3 +1,4 @@
+"use client";
 import { BookTemplate, Hamburger, History, Home, Library, Link, LogOut, MessageSquare, Phone } from 'lucide-react'
 import React, { useState } from 'react'
 import { Button } from '../ui/button'
