@@ -10,19 +10,26 @@ import Link from "next/link";
 import Image from "next/image";
 import NavBar from "./NavBar";
 import styles from "@/components/styles/HomepageStyles.module.css";
-import { Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import { validate } from "@/lib/validate";
+const voucher_codes = require("voucher-code-generator");
 
-interface UserAuthProps {
-  onLogin: (user: {
-    id: string;
-    email: string;
-    role: "admin" | "student" | "parent";
-    name: string;
-  }) => void;
-  onBack: () => void;
-}
+const generateUniqueCode = (prefix: string) => {
+  return voucher_codes
+    .generate({
+      count: 1,
+      length: 5,
+      prefix: prefix,
+      charset: "alphabetic",
+    })[0]
+    .toUpperCase();
+};
+
 
 const Login = () => {
+
+  const userId = generateUniqueCode("MHS-");
+
   const initValues = {
     email: "",
     password: "",
@@ -31,6 +38,20 @@ const Login = () => {
     role: "",
     id: "",
     token: "",
+  };
+
+  const handleSubmit = async (values: typeof initValues) => {
+    
+    values.id = userId;
+    const response = await fetch("/api/save-user-to-db", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(values),
+    })
+
+    console.log(userId);
   };
 
   return (
@@ -64,8 +85,8 @@ const Login = () => {
             </div>
             <Formik
               initialValues={initValues}
-              onSubmit={(values) => console.log(values)}
-              
+              onSubmit={handleSubmit}
+              validate={validate}
             >
               {() => (
                 <Form className="space-y-6">
@@ -114,6 +135,7 @@ const StepOne = () => {
       </div>
       <div className="space-y-2">
         <Label htmlFor="email">Email</Label>
+        <ErrorMessage name="email" component="div" className="text-red-500" />
         <Field
           type="email"
           id="email"
@@ -125,6 +147,7 @@ const StepOne = () => {
 
       <div className="space-y-2">
         <Label htmlFor="password">Password</Label>
+        <ErrorMessage name="password" component="div" className="text-red-500" />
         <Field
           type="password"
           id="password"
@@ -132,6 +155,19 @@ const StepOne = () => {
           required
           className="mt-1 block w-full px-4 py-2 border outline-none border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
         />
+        
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="password">Confirm Password</Label>
+        <ErrorMessage name="confirmPassword" component="div" className="text-red-500" />
+       <Field
+          type="password"
+          id="confirmpassword"
+          name="confirmPassword"
+          required
+          className="mt-1 block w-full px-4 py-2 border outline-none border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
+        />
+        
       </div>
     </>
   );
