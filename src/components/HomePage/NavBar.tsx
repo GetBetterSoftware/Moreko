@@ -6,6 +6,7 @@ import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import styles from "@/components/styles/HomepageStyles.module.css"
 import Hamburger from 'hamburger-react';
+import { signIn, signOut, useSession } from 'next-auth/react';
 
 const NavBar = () => {
     const [showMenu, setShowMenu] = useState(false)
@@ -47,19 +48,51 @@ const NavBar = () => {
 }
 
 const NavButtons = () => {
+      const {data: session} = useSession()
+
   return (
-     <div className={`flex items-center space-x-2 ${styles.buttons}`}>
-              
-              <Link href="/login" className="hover:disabled">
+
+    <>
+
+    {
+      session?.user ? (
+
+        <div className={`flex items-center space-x-2 ${styles.buttons}`}>
+        <Link href={`/admin/${session?.user.name?.toLowerCase().replace(/\s+/g, '-')}`} className="hover:disabled">
               <Button
                 variant="outline"
                 
                 className="text-red-800 border-none bg-gray-100 cursor-pointer"
               >
+                <Settings className="w-4 h-4 mr-2" />
+                Dashboard
+              </Button>
+              </Link>
+
+              <Button
+                variant="outline"
+                onClick={() => signOut()}
+                className="text-red-800 border-none bg-gray-100 cursor-pointer"
+              >
+                <User className="w-4 h-4 mr-2" />
+                Sign Out
+              </Button>
+        </div>
+        
+      ) :
+      (
+        <div className={`flex items-center space-x-2 ${styles.buttons}`}>
+              
+              
+              <Button
+                variant="outline"
+                onClick={() => signIn()}
+                className="text-red-800 border-none bg-gray-100 cursor-pointer"
+              >
                 <User className="w-4 h-4 mr-2" />
                 Sign In
               </Button>
-              </Link>
+              
               <Link href="/register" className="hover:disabled">
               <Button
                 variant="outline"
@@ -71,6 +104,11 @@ const NavButtons = () => {
               </Button>
               </Link>
     </div>
+      )
+    }
+    
+    </>
+     
   );
 }
 

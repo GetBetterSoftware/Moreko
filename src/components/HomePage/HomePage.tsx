@@ -7,8 +7,6 @@ import {
   MapPin,
   Trophy,
   Users,
-  Settings,
-  User,
   LogIn,
   Lock,
   Download,
@@ -124,7 +122,7 @@ const HomePage = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-7 justify-center">
             <Link href="/register" className="bg-gray-100 text-red-800 hover:bg-gray-200 cursor-pointer rounded-md">
-            <Button size="lg"  >
+            <Button size="lg" variant="outline" className="border-gray-100 hover:bg-gray-100 text-red-800 cursor-pointer">
               <LogIn className="w-5 h-5 mr-2" />
               Join Our Digital Platform
             </Button>

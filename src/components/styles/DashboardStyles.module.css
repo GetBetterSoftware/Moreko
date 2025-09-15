@@ -8,6 +8,11 @@
 .navbar {
   max-width: min(1920px, 100vw) !important;
   margin: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
 }
 
 .menu {

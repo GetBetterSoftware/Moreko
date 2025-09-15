@@ -43,7 +43,7 @@ const Login = () => {
   const handleSubmit = async (values: typeof initValues) => {
     
     values.id = userId;
-    const response = await fetch("/api/save-user-to-db", {
+    const res = await fetch("/api/save-user-to-db", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -51,7 +51,12 @@ const Login = () => {
       body: JSON.stringify(values),
     })
 
-    console.log(userId);
+    if (res.redirected) {
+  window.location.href = res.url; // This will follow the redirect
+} else {
+  const result = await res.json();
+  // Handle error or success
+}
   };
 
   return (
