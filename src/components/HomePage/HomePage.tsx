@@ -20,6 +20,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import Image from 'next/image';
 import Link from 'next/link';
 import NavBar from './NavBar';
+import CalendarComponent from './Calendar';
 
 interface PublicSiteProps {
   onAdminLogin: () => void;
@@ -27,6 +28,9 @@ interface PublicSiteProps {
 }
 
 const HomePage = () => {
+
+  const [showCalendar, setShowCalendar] = useState(false);
+
   const achievements = [
     {
       year: "2024",
@@ -108,7 +112,12 @@ const HomePage = () => {
  
 
   return (
+    <>
+    {
+      showCalendar ? <CalendarComponent close={setShowCalendar}/> : null
+    }
     <div className={`${styles.styles}`}>
+      
       {/* Header */}
       <NavBar />
       {/* Hero Banner */}
@@ -121,12 +130,7 @@ const HomePage = () => {
             {schoolInfo.motto}
           </p>
           <div className="flex flex-col sm:flex-row gap-7 justify-center">
-            <Link href="/register" className="bg-gray-100 text-red-800 hover:bg-gray-200 cursor-pointer rounded-md">
-            <Button size="lg" variant="outline" className="border-gray-100 hover:bg-gray-100 text-red-800 cursor-pointer">
-              <LogIn className="w-5 h-5 mr-2" />
-              Join Our Digital Platform
-            </Button>
-            </Link>
+            
              <Link href="/#about" className="bg-gray-100 text-red-800 hover:bg-gray-200 cursor-pointer rounded-md">
             <Button size="lg" variant="outline" className="border-gray-100 hover:bg-gray-100 text-red-800 cursor-pointer">
               <BookOpen className="w-5 h-5 mr-2" />
@@ -158,7 +162,7 @@ const HomePage = () => {
               </Button>
               </Link>
 
-               <Button className="bg-gray-50 text-red-800 hover:bg-gray-100 cursor-pointer"size="lg">
+               <Button className="bg-gray-50 text-red-800 hover:bg-gray-100 cursor-pointer"size="lg" onClick={() => setShowCalendar(true)}>
                 <Calendar className="w-5 h-5 mr-2" />
                 View School Calendar
               </Button>
@@ -410,6 +414,8 @@ const HomePage = () => {
         </div>
       </footer>
     </div>
+    </>
+    
   );
 };
 
