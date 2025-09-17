@@ -1,18 +1,10 @@
-import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
 import { Sub } from "@radix-ui/themes/components/context-menu"
 import { title } from "process"
 import NavBar from "./NavBar"
-import styles from "@/components/styles/HomepageStyles.module.css"
+import styles from "@/components/styles/StudentPortal.module.css"
 import DashNav from "../DashboardPage/DashNav"
 import DashboardNav from "../Dashboard/DashboardNav"
+import { HeartIcon, Trash } from "lucide-react"
 
 
 
@@ -48,74 +40,44 @@ const StudentPortal = () => {
             grade: 11,
             date : "25/06/24"
         },
-        {
-            title: "Master Mathematics",
-            subject: "Mathematics",
-            grade: 11,
-            date : "25/06/24"
-        },
-        {
-            title: "Physics",
-            subject: "Physics",
-            grade: 11,
-            date : "25/06/24"
-        },
-        {
-            title: "Chemistry",
-            subject: "Chemistry",
-            grade: 11,
-            date : "25/06/24"
-        },
-        {
-            title: "Biology",
-            subject: "Biology",
-            grade: 11,
-            date : "25/06/24"
-        },
-        {
-            title: "Computer Science",
-            subject: "Computer Science",
-            grade: 11,
-            date : "25/06/24"
-        },
-        {
-            title: "Natural Science",
-            subject: "Natural Science",
-            grade: 11,
-            date : "25/06/24"
-        }
+        
+    
         ]
 
     return (
         
         <div className={`mx-auto px-4 sm:px-6 lg:px-8  ${styles.styles}`}>
             <DashboardNav/>
-            <h1 className={`text-6xl font-bold text-gray-800 mt-25 py-12 mb-4 text-center`}>Welcome back, Student... </h1>
-            <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-gradient-to-r from-red-50 to-red-100 rounded-lg p-8 border-l-4 border-red-800">
-                
-                <Table>
+            <h1 className={`text-8xl text-center  text-gray-700 mt-25 py-10 mb-4 `}>Good morning, Mkhabelfthftttufu! </h1>
+            <p className={`w-1/2 text-center mx-auto text-gray-800`}>Please feel free to find your download history in the make shift table below, it will be updated on a daily basis, please be patient. This was created by a kickass developer.</p>
+            <div className=" mx-auto px-4 sm:px-6 lg:px-8 py-12 bg-gray-800 rounded-md mt-10">
                     
-                        <TableHeader>
-                            <TableRow>
-                            <TableHead className="font-medium">Date</TableHead>
-                            <TableHead>Book</TableHead>
-                            <TableHead>Subject</TableHead>
-                            <TableHead >Grade</TableHead>
-                        </TableRow>
-                    </TableHeader>
-                    <TableBody>
+                        
+                            <div className={`${styles.header}`}>
+                            <div className="font-medium">Date</div>
+                            <div>Book</div>
+                            <div>Subject</div>
+                            <div>Grade</div>
+                            <div>Actions</div>
+
+                        </div>
+                    <div>
                         {
                         BookData.map((book,index) => (
-                            <TableRow key={book.title + index}>
-                                <TableCell className="font-medium">{book.date}</TableCell>
-                                <TableCell>{book.title}</TableCell>
-                                <TableCell>{book.subject}</TableCell>
-                                <TableCell >{book.grade}</TableCell>
-                            </TableRow>
+                            <div className={`${styles.row}`} key={book.title + index}>
+                                <div className="font-medium">{book.date}</div>
+                                <div>{book.title}</div>
+                                <div>{book.subject}</div>
+                                <div >{book.grade}</div>
+                                <div className={`${styles.icons}`} >
+                                    <HeartIcon className="w-5 h-5 text-red-600" />
+                                    <Trash className="w-5 h-5 text-red-600"/>
+                                </div>
+                            </div>
                             ))
                         }
-                    </TableBody>
-                </Table>
+                    </div>
+                
             </div>
         </div>
                 

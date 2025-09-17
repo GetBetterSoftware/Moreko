@@ -11,7 +11,7 @@ import StudentPortal from "@/components/HomePage/StudentPortal";
 export default function Home() {
   return (
     <div className="">   
-        <HomePage/>
+        <StudentPortal/>
     </div>
   );
 }
