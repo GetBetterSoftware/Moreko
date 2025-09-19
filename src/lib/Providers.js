@@ -11,8 +11,6 @@ const Providers = ({children}) => {
             </DatabaseProvider>
         </SessionProvider>
     </>
-       
-     
 }
 
 export default Providers;
