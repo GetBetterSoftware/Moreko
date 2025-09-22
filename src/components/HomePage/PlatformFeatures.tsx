@@ -12,7 +12,7 @@ const PlatformFeatures = () => {
             <p className="text-gray-600 mt-2">Sign in to access these exclusive features</p>
           </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             <Card className="text-center p-6 opacity-75">
               <div className="p-3 bg-red-100 rounded-lg mx-auto w-fit mb-4">
                 <BookOpen className="w-8 h-8 text-red-800" />
@@ -28,15 +28,6 @@ const PlatformFeatures = () => {
               </div>
               <h3 className="font-semibold mb-2">School News</h3>
               <p className="text-sm text-gray-600">Stay updated with latest announcements and school events</p>
-              <Lock className="w-4 h-4 text-gray-400 mx-auto mt-2" />
-            </Card>
-
-            <Card className="text-center p-6 opacity-75">
-              <div className="p-3 bg-red-100 rounded-lg mx-auto w-fit mb-4">
-                <Users className="w-8 h-8 text-red-800" />
-              </div>
-              <h3 className="font-semibold mb-2">Communication</h3>
-              <p className="text-sm text-gray-600">Receive SMS and email updates about important school matters</p>
               <Lock className="w-4 h-4 text-gray-400 mx-auto mt-2" />
             </Card>
 
