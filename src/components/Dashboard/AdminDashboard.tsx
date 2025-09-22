@@ -23,6 +23,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import styles from "@/components/styles/DashboardStyles.module.css";
 import DashNavBar from './DashboardNav';
+import DigitalLibrary from './DigitalLibrary';
 
 
 interface Stat {
@@ -422,6 +423,8 @@ const AdminDashboard = () => {
         return renderDownloadsView();
       case 'news':
         return renderNewsView();
+      case 'library':
+        return <DigitalLibrary/>
       default:
         return (
           <div className="space-y-8">
@@ -447,37 +450,39 @@ const AdminDashboard = () => {
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  
+                  <Button 
+                    onClick={() => setActiveView('library')}
+                    variant="outline" 
+                    className='border-none cursor-pointer shadow-md hover:shadow-sm h-20 bg-white hover:text-red-800 hover:bg-white'
+                  >
+                    <div className="text-center">
+                      <BookOpen className="w-6 h-6 mx-auto mb-2" />
+                      <span>Browse Library</span>
+                    </div>
+                  </Button>
+                  
                   <Button 
                     onClick={() => {
                       setActiveView('news');
                       setShowNewArticleForm(true);
                     }} 
-                    className='border-none cursor-pointer shadow-md hover:shadow-sm h-20 bg-white'
+                    className='border-none cursor-pointer text-black shadow-md hover:shadow-sm h-20 bg-white hover:text-red-800 hover:bg-white'
                   >
                     <div className="text-center">
                       <PlusCircle className="w-6 h-6 mx-auto mb-2" />
                       <span>Submit Article</span>
                     </div>
                   </Button>
-                  
+
                   <Button 
                     onClick={() => setActiveView('downloads')} 
                     variant="outline" 
-                    className='border-none cursor-pointer shadow-md hover:shadow-sm h-20 bg-white'
+                    className='border-none cursor-pointer shadow-md hover:shadow-sm h-20 bg-white hover:text-red-800 hover:bg-white'
                   >
-                    <div className="text-center">
+                    <div className="text-center ">
                       <Download className="w-6 h-6 mx-auto mb-2" />
                       <span>View Downloads</span>
-                    </div>
-                  </Button>
-                  
-                  <Button 
-                    variant="outline" 
-                    className='border-none cursor-pointer shadow-md hover:shadow-sm h-20 bg-white'
-                  >
-                    <div className="text-center">
-                      <BookOpen className="w-6 h-6 mx-auto mb-2" />
-                      <span>Browse Library</span>
                     </div>
                   </Button>
                 </div>
@@ -534,6 +539,14 @@ const AdminDashboard = () => {
           >
             <BarChart3 className="w-4 h-4 mr-2" />
             Dashboard
+          </Button>
+          <Button
+            variant={activeView === 'library' ? 'default' : 'outline'}
+            onClick={() => setActiveView('library')}
+            className={activeView === 'library' ? 'bg-red-800 hover:bg-red-900 text-white' : 'border-none cursor-pointer shadow-md hover:shadow-sm'}
+          >
+            <BookOpen className="w-4 h-4 mr-2" />
+            Library
           </Button>
           <Button
             variant={activeView === 'news' ? 'default' : 'outline'}
