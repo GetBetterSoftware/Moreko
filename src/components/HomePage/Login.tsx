@@ -24,30 +24,16 @@ interface UserAuthProps {
 }
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
   const params = useSearchParams()
 
   useEffect(() => {
     
-    const encodedCallbackUrl = params.get("username");
-    let decodedUrl; 
-    if(encodedCallbackUrl){
-      decodedUrl = decodeURIComponent(encodedCallbackUrl); 
-      setEmail(decodedUrl)
-    }
-    else{
-      decodedUrl = "/"
+    if(params.get('error') === 'CredentialsSignin') {
+      alert('Invalid Credentials')
     }
   },[]);
   
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    await signIn("credentials", { redirect: false, email, password}).then((res) => {
-      console.log(res)
-    })
-  }
   return (
     <>
     <NavBar/>
@@ -70,28 +56,27 @@ const Login = () => {
           
         </div>
 
-        <form className="space-y-6" onSubmit={handleSubmit}>
+        <form className="space-y-6" >
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label htmlFor="name">Student name</Label>
             <input
-              type="email"
-              id="email"
-              name="email"
+              type="text"
+              id="name"
+              name="name"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              placeholder="Enter student name"
               className="mt-1 block w-full px-4 py-2 border outline-none border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="number">Parent's phone number</Label>
              <input
-              type="password"
-              id="password"
-              name="password"
+              type="text"
+              id="number"
+              name="number"
               required
-              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter parent's phone number"
               className="mt-1 block w-full px-4 py-2 border outline-none border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
             />
           </div>
@@ -105,9 +90,6 @@ const Login = () => {
         </form>
 
         <div className="mt-6 text-center space-y-2">
-          <div className="text-sm text-gray-600">
-            Don't have an account? <Link href="/register">Sign Up</Link>
-          </div>
 
           <Link
             href="/"

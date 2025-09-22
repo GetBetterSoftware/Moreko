@@ -49,7 +49,7 @@ const HomePage = () => {
           </section>
 
           {/* Gallery Highlights Section */}
-          <section className="mb-16 bg-white  rounded-lg p-8">
+          <section className="mb-16 bg-white  rounded-lg p-8" id="gallery">
             <Gallery />
           </section>
         </div>

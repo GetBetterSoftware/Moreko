@@ -93,16 +93,6 @@ const NavButtons = () => {
                 Sign In
               </Button>
               
-              <Link href="/register" className="hover:disabled">
-              <Button
-                variant="outline"
-                
-                className="text-red-800 border-none bg-gray-100 cursor-pointer"
-              >
-                <DoorOpen className="w-4 h-4 mr-2" />
-                Register
-              </Button>
-              </Link>
     </div>
       )
     }
@@ -151,13 +141,7 @@ const NavLinks = ({menu}: any) => {
                 <User className="w-4 h-4 mr-2" />
                 Log In
               </Link>
-              <Link
-                href={"/"}
-                className="text-red-800 border-none hover:bg-gray-100 cursor-pointer flex flex-row items-center p-3 w-50 bg-gray-100 rounded"
-              >
-                <DoorOpen className="w-4 h-4 mr-2" />
-                Sign Up
-              </Link>
+              
       </div>
     )
 }
