@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { 
   FileText, 
@@ -25,6 +25,7 @@ import styles from "@/components/styles/DashboardStyles.module.css";
 import DashNavBar from './DashboardNav';
 import DigitalLibrary from './DigitalLibrary';
 import { useDatabase } from '@/context/Database';
+import { useSession } from 'next-auth/react';
 const voucher_codes = require("voucher-code-generator");
 
 const generateCode = (prefix: string) => {
@@ -59,6 +60,8 @@ interface Article {
   category: string;
   content?: string;
   reason?: string;
+  grade?: string;
+  author?: string;
 }
 
 interface NewArticle {
@@ -70,6 +73,8 @@ interface NewArticle {
 
 const AdminDashboard = () => {
   const {posts} = useDatabase();
+  const {data: session } = useSession();
+
   const [activeView, setActiveView] = useState<string>('dashboard');
   const [showNewArticleForm, setShowNewArticleForm] = useState<boolean>(false);
   const [newArticle, setNewArticle] = useState<NewArticle>({
@@ -78,6 +83,8 @@ const AdminDashboard = () => {
     paragraphs: [''],
     summary: ''
   });
+
+ 
 
   const [articles, setArticles] = useState<Article[]>()
 
@@ -109,7 +116,10 @@ const AdminDashboard = () => {
       content: newArticle.paragraphs.join('\n\n'), // Convert paragraphs to content for display
       status: 'pending',
       submittedAt: new Date().toLocaleString(),
-      views: 0
+      views: 0,
+      grade: (session?.user as { grade: string | undefined })?.grade || '',
+      author: session?.user?.name || '',
+      reason: ""
     };
 
     await fetch('/api/upload-article', {
