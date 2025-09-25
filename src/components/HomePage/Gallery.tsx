@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from '../ui/button';
 import { Card, CardContent } from '../ui/card';
 import { ImageIcon } from 'lucide-react';
+import Link from 'next/link';
 
 const galleryHighlights = [
     { title: "Sports Day 2024", image: "/placeholder.svg" },
@@ -16,7 +17,11 @@ const Gallery = () => {
         <>
             <div className="flex items-center justify-between mb-8">
                         <h2 className="text-3xl font-bold text-gray-900">Gallery Highlights</h2>
-                        <Button className="bg-gray-100 text-red-800 hover:bg-gray-100 cursor-pointer">View Full Gallery</Button>
+                        <Link href="gallery">
+                          <Button className="bg-gray-100 text-red-800 hover:bg-gray-100 cursor-pointer">
+                            View Full Gallery
+                          </Button>
+                        </Link>
                       </div>
                       
                       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
