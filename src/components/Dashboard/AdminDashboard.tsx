@@ -14,7 +14,10 @@ import {
   MessageSquare,
   User,
   Save,
-  X
+  X,
+  Upload,
+  Image as ImageIcon,
+  Trash2
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '@/components/ui/button';
@@ -51,6 +54,13 @@ interface Download {
   type: string;
 }
 
+interface ArticleImage {
+  id: string;
+  file: File;
+  preview: string;
+  caption: string;
+}
+
 interface Article {
   id: string;
   title: string;
@@ -62,6 +72,7 @@ interface Article {
   reason?: string;
   grade?: string;
   author?: string;
+  images?: ArticleImage[];
 }
 
 interface NewArticle {
@@ -69,6 +80,7 @@ interface NewArticle {
   category: string;
   paragraphs: string[];
   summary: string;
+  images: ArticleImage[];
 }
 
 const AdminDashboard = () => {
@@ -81,10 +93,9 @@ const AdminDashboard = () => {
     title: '',
     category: '',
     paragraphs: [''],
-    summary: ''
+    summary: '',
+    images: []
   });
-
- 
 
   const [articles, setArticles] = useState<Article[]>()
 
@@ -103,6 +114,73 @@ const AdminDashboard = () => {
     { name: 'English Literature Notes.pdf', date: '1 month ago', size: '2.1 MB', type: 'PDF' }
   ];
 
+  // Image handling functions
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const files = event.target.files;
+    if (!files) return;
+
+    const maxImages = 5;
+    if (newArticle.images.length + files.length > maxImages) {
+      alert(`You can only upload a maximum of ${maxImages} images per article.`);
+      return;
+    }
+
+    const newImages: ArticleImage[] = [];
+    
+    Array.from(files).forEach((file) => {
+      // Validate file type
+      if (!file.type.startsWith('image/')) {
+        alert('Please only upload image files.');
+        return;
+      }
+
+      // Validate file size (5MB max)
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      if (file.size > maxSize) {
+        alert('Image size should be less than 5MB.');
+        return;
+      }
+
+      const imageId = generateCode('IMG-');
+      const preview = URL.createObjectURL(file);
+      
+      newImages.push({
+        id: imageId,
+        file,
+        preview,
+        caption: ''
+      });
+    });
+
+    setNewArticle({
+      ...newArticle,
+      images: [...newArticle.images, ...newImages]
+    });
+
+    // Clear the input
+    event.target.value = '';
+  };
+
+  const updateImageCaption = (imageId: string, caption: string): void => {
+    setNewArticle({
+      ...newArticle,
+      images: newArticle.images.map(img => 
+        img.id === imageId ? { ...img, caption } : img
+      )
+    });
+  };
+
+  const removeImage = (imageId: string): void => {
+    const imageToRemove = newArticle.images.find(img => img.id === imageId);
+    if (imageToRemove) {
+      URL.revokeObjectURL(imageToRemove.preview);
+    }
+    
+    setNewArticle({
+      ...newArticle,
+      images: newArticle.images.filter(img => img.id !== imageId)
+    });
+  };
 
   const handleSubmitArticle = async (): Promise<void> => {
     if (!newArticle.title || !newArticle.category || newArticle.paragraphs.some(p => p.trim() === '')) {
@@ -110,10 +188,20 @@ const AdminDashboard = () => {
       return;
     }
 
-    const articleToAdd: Article = {
-      ...newArticle,
+    if (newArticle.images.length === 0) {
+      alert('Please upload at least one image for your article');
+      return;
+    }
+
+    // Create FormData for file upload
+    const formData = new FormData();
+    
+    const articleToAdd: any = {
       id: generateCode('ARTICLE-'),
-      content: newArticle.paragraphs.join('\n\n'), // Convert paragraphs to content for display
+      title: newArticle.title,
+      category: newArticle.category,
+      content: newArticle.paragraphs.join('\n\n'),
+      summary: newArticle.summary,
       status: 'pending',
       submittedAt: new Date().toLocaleString(),
       views: 0,
@@ -122,24 +210,41 @@ const AdminDashboard = () => {
       reason: ""
     };
 
-    await fetch('/api/upload-article', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(articleToAdd)
+    // Add article data
+    formData.append('article', JSON.stringify(articleToAdd));
+    
+    // Add images and captions
+    newArticle.images.forEach((image, index) => {
+      formData.append(`image_${index}`, image.file);
+      formData.append(`caption_${index}`, image.caption);
+    });
 
-    })
+    try {
+      await fetch('/api/upload-article', {
+        method: 'POST',
+        body: formData
+      });
+
       setArticles([articleToAdd, ...posts]);
-      setNewArticle({ title: '', category: '', paragraphs: [''], summary: '' });
+      
+      // Cleanup image previews
+      newArticle.images.forEach(img => URL.revokeObjectURL(img.preview));
+      
+      setNewArticle({ title: '', category: '', paragraphs: [''], summary: '', images: [] });
       setShowNewArticleForm(false);
 
-    // Show success message
-    alert('Article submitted successfully! It will be reviewed shortly.');
+      alert('Article submitted successfully! It will be reviewed shortly.');
+    } catch (error) {
+      console.error('Error submitting article:', error);
+      alert('Error submitting article. Please try again.');
+    }
   };
 
   const handleCancelArticle = (): void => {
-    setNewArticle({ title: '', category: '', paragraphs: [''], summary: '' });
+    // Cleanup image previews
+    newArticle.images.forEach(img => URL.revokeObjectURL(img.preview));
+    
+    setNewArticle({ title: '', category: '', paragraphs: [''], summary: '', images: [] });
     setShowNewArticleForm(false);
   };
 
@@ -260,7 +365,7 @@ const AdminDashboard = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div>
                 <label className="block text-sm font-medium mb-2">Title *</label>
                 <Input
@@ -299,6 +404,74 @@ const AdminDashboard = () => {
                   onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setNewArticle({...newArticle, summary: e.target.value})}
                   rows={2}
                 />
+              </div>
+
+              {/* Image Upload Section */}
+              <div>
+                <label className="block text-sm font-medium mb-2">Images *</label>
+                <div className="space-y-4">
+                  {/* Upload Button */}
+                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors">
+                    <input
+                      type="file"
+                      id="image-upload"
+                      multiple
+                      accept="image/*"
+                      onChange={handleImageUpload}
+                      className="hidden"
+                    />
+                    <label
+                      htmlFor="image-upload"
+                      className="cursor-pointer flex flex-col items-center space-y-2"
+                    >
+                      <Upload className="w-8 h-8 text-gray-400" />
+                      <div className="text-sm text-gray-600">
+                        <span className="font-medium text-red-800 hover:text-red-900">Click to upload images</span>
+                        <p className="text-xs text-gray-500 mt-1">
+                          At least 1 image required. Maximum 5 images, up to 5MB each. Supported formats: JPG, PNG, GIF, WebP
+                        </p>
+                      </div>
+                    </label>
+                  </div>
+
+                  {/* Image Previews */}
+                  {newArticle.images.length > 0 && (
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      {newArticle.images.map((image, index) => (
+                        <div key={image.id} className="border rounded-lg p-4 bg-gray-50">
+                          <div className="relative">
+                            <img
+                              src={image.preview}
+                              alt={`Preview ${index + 1}`}
+                              className="w-full h-48 object-cover rounded-lg"
+                            />
+                            <Button
+                              variant="destructive"
+                              size="sm"
+                              className="absolute top-2 right-2"
+                              onClick={() => removeImage(image.id)}
+                            >
+                              <Trash2 className="w-3 h-3" />
+                            </Button>
+                          </div>
+                          <div className="mt-3">
+                            <label className="block text-xs font-medium text-gray-700 mb-1">
+                              Image Caption (Optional)
+                            </label>
+                            <Input
+                              placeholder="Enter image caption..."
+                              value={image.caption}
+                              onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
+                                updateImageCaption(image.id, e.target.value)
+                              }
+                              className="text-sm"
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
               
               <div>
@@ -377,6 +550,12 @@ const AdminDashboard = () => {
                       <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(article.status)}`}>
                         {article.status.charAt(0).toUpperCase() + article.status.slice(1)}
                       </span>
+                      {article.images && article.images.length > 0 && (
+                        <span className="flex items-center text-xs text-gray-500">
+                          <ImageIcon className="w-3 h-3 mr-1" />
+                          {article.images.length} image{article.images.length > 1 ? 's' : ''}
+                        </span>
+                      )}
                     </div>
                     <div className="flex items-center space-x-4 text-sm text-gray-500">
                       <span>Category: {article.category}</span>
