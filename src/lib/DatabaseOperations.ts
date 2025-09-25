@@ -1,4 +1,4 @@
-import { collection, doc, setDoc, where, query, getDocs, CACHE_SIZE_UNLIMITED, getDoc, updateDoc } from "firebase/firestore"; 
+import { collection, doc, setDoc, where, query, getDocs, CACHE_SIZE_UNLIMITED, getDoc, updateDoc, DocumentData } from "firebase/firestore"; 
 import { app } from "@/lib/firebase";
 import { initializeFirestore} from "firebase/firestore";
 
@@ -9,18 +9,46 @@ export const db = initializeFirestore(app, {
 });
 
 
-export const addData = async (collectionName: string, data: any, id: string) => {
-    await setDoc(doc(db, collectionName, id), data);
-};
-
-export const userExists = async (collectionName: string, userEmail: string) => {
-    const q = query(collection(db, collectionName), where("email", "==", userEmail));
+export const userExists = async (collectionName: string, userPhone: string, userName: string) => {
+    const q = query(collection(db, collectionName), where("phone", "==", userPhone), where("name", "==", userName));
     const querySnapshot = await getDocs(q);
     return !querySnapshot.empty;
 }
 
-export const getUser = async (collectionName: string, userEmail: string) => {
-    const q = query(collection(db, collectionName), where("email", "==", userEmail));
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.docs[0].data();
+export const getArticle = async (collectionName: string, collectionName2: string) => {
+    const posts: DocumentData[] = [];
+    const articles: DocumentData[] = [];
+
+    const querySnapshot = await getDocs(collection(db, collectionName));
+    querySnapshot.forEach((doc) => {
+        posts.push(doc.data());
+    });
+
+    const querySnapshot2 = await getDocs(collection(db, collectionName2));
+    querySnapshot2.forEach((doc) => {
+        articles.push(doc.data());
+    });
+
+    return posts.concat(articles);
 }
+
+export const getParent = async (collectionName: string, phone: string, name: string) => {
+    const parents: DocumentData[] = [];
+    const querySnapshot = await getDocs(collection(db, collectionName));
+    querySnapshot.forEach((doc) => {
+        parents.push(doc.data());
+    });
+
+    const parent = parents.find((parent: any) => parent.phone === phone);
+    if(parent) {
+        return parent?.children.find((child: any) => child.name === name);
+    }
+
+    else {
+        return null;
+    }
+}
+
+export const uploadArticle = async (collectionName: string, data: any, id: string) => {
+    await setDoc(doc(db, collectionName, id), data);
+};

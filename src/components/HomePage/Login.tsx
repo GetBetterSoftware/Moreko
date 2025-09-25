@@ -13,25 +13,24 @@ import styles from "@/components/styles/HomepageStyles.module.css"
 import { signIn } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
 
-interface UserAuthProps {
-  onLogin: (user: {
-    id: string;
-    email: string;
-    role: "admin" | "student" | "parent";
-    name: string;
-  }) => void;
-  onBack: () => void;
-}
-
 const Login = () => {
   const params = useSearchParams()
-
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   useEffect(() => {
     
-    if(params.get('error') === 'CredentialsSignin') {
+    if(params.get('_error') === 'CredentialsSignin') {
       alert('Invalid Credentials')
     }
   },[]);
+
+  const handleLogin = async (e:React.FormEvent) => {
+    e.preventDefault();
+    
+    signIn("credentials", { email: name, password: phone }).catch((error) => {
+      console.log(error);
+    })
+  };
   
 
   return (
@@ -56,13 +55,14 @@ const Login = () => {
           
         </div>
 
-        <form className="space-y-6" >
+        <form className="space-y-6" onSubmit={handleLogin}>
           <div className="space-y-2">
             <Label htmlFor="name">Student name</Label>
             <input
               type="text"
               id="name"
               name="name"
+              onChange={(e) => setName(e.target.value)}
               required
               placeholder="Enter student name"
               className="mt-1 block w-full px-4 py-2 border outline-none border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"
@@ -75,6 +75,7 @@ const Login = () => {
               type="text"
               id="number"
               name="number"
+              onChange={(e) => setPhone(e.target.value)}
               required
               placeholder="Enter parent's phone number"
               className="mt-1 block w-full px-4 py-2 border outline-none border-gray-300 rounded-md shadow-sm focus:ring-red-500 focus:border-red-500"

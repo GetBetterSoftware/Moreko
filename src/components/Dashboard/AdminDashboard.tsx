@@ -24,7 +24,17 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import styles from "@/components/styles/DashboardStyles.module.css";
 import DashNavBar from './DashboardNav';
 import DigitalLibrary from './DigitalLibrary';
+import { useDatabase } from '@/context/Database';
+const voucher_codes = require("voucher-code-generator");
 
+const generateCode = (prefix: string) => {
+  return voucher_codes.generate({
+    count: 1,
+    prefix,
+    length: 10,
+    charset:"alphabetic"
+  })[0].toUpperCase();
+}
 
 interface Stat {
   title: string;
@@ -41,9 +51,10 @@ interface Download {
 }
 
 interface Article {
+  id: string;
   title: string;
   status: 'approved' | 'pending' | 'declined';
-  date: string;
+  submittedAt: string;
   views: number;
   category: string;
   content?: string;
@@ -58,6 +69,7 @@ interface NewArticle {
 }
 
 const AdminDashboard = () => {
+  const {posts} = useDatabase();
   const [activeView, setActiveView] = useState<string>('dashboard');
   const [showNewArticleForm, setShowNewArticleForm] = useState<boolean>(false);
   const [newArticle, setNewArticle] = useState<NewArticle>({
@@ -66,51 +78,8 @@ const AdminDashboard = () => {
     paragraphs: [''],
     summary: ''
   });
-  const [articles, setArticles] = useState<Article[]>([
-    { 
-      title: 'Inter-house Sports Day Results', 
-      status: 'approved', 
-      date: '3 days ago',
-      views: 45,
-      category: 'Sports'
-    },
-    { 
-      title: 'Science Fair Innovation Showcase', 
-      status: 'pending', 
-      date: '1 day ago',
-      views: 0,
-      category: 'Academics'
-    },
-    { 
-      title: 'Drama Club Performance Review', 
-      status: 'approved', 
-      date: '1 week ago',
-      views: 78,
-      category: 'Arts'
-    },
-    { 
-      title: 'Student Council Election Campaign', 
-      status: 'declined', 
-      date: '2 weeks ago',
-      views: 0,
-      category: 'Politics',
-      reason: 'Content needs revision - please add more factual details'
-    },
-    { 
-      title: 'Environmental Awareness Week Recap', 
-      status: 'pending', 
-      date: '5 days ago',
-      views: 0,
-      category: 'Environment'
-    },
-    { 
-      title: 'Library New Books Announcement', 
-      status: 'approved', 
-      date: '2 weeks ago',
-      views: 32,
-      category: 'Academics'
-    }
-  ]);
+
+  const [articles, setArticles] = useState<Article[]>()
 
   const stats: Stat[] = [
     { title: 'Total Downloads', value: '23', icon: Download, color: 'text-blue-600' },
@@ -127,7 +96,8 @@ const AdminDashboard = () => {
     { name: 'English Literature Notes.pdf', date: '1 month ago', size: '2.1 MB', type: 'PDF' }
   ];
 
-  const handleSubmitArticle = (): void => {
+
+  const handleSubmitArticle = async (): Promise<void> => {
     if (!newArticle.title || !newArticle.category || newArticle.paragraphs.some(p => p.trim() === '')) {
       alert('Please fill in all required fields and ensure all paragraphs have content');
       return;
@@ -135,16 +105,25 @@ const AdminDashboard = () => {
 
     const articleToAdd: Article = {
       ...newArticle,
+      id: generateCode('ARTICLE-'),
       content: newArticle.paragraphs.join('\n\n'), // Convert paragraphs to content for display
       status: 'pending',
-      date: 'Just now',
+      submittedAt: new Date().toLocaleString(),
       views: 0
     };
 
-    setArticles([articleToAdd, ...articles]);
-    setNewArticle({ title: '', category: '', paragraphs: [''], summary: '' });
-    setShowNewArticleForm(false);
-    
+    await fetch('/api/upload-article', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(articleToAdd)
+
+    })
+      setArticles([articleToAdd, ...posts]);
+      setNewArticle({ title: '', category: '', paragraphs: [''], summary: '' });
+      setShowNewArticleForm(false);
+
     // Show success message
     alert('Article submitted successfully! It will be reviewed shortly.');
   };
@@ -378,7 +357,7 @@ const AdminDashboard = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {articles.map((article, index) => (
+            {posts.map((article: any, index: number) => (
               <div key={index} className="p-4 border rounded-lg hover:bg-gray-50">
                 <div className="flex items-start justify-between">
                   <div className="flex-1">
@@ -391,7 +370,7 @@ const AdminDashboard = () => {
                     </div>
                     <div className="flex items-center space-x-4 text-sm text-gray-500">
                       <span>Category: {article.category}</span>
-                      <span>Submitted {article.date}</span>
+                      <span>Submitted {article.submittedAt}</span>
                       {article.status === 'approved' && (
                         <span>{article.views} views</span>
                       )}
@@ -404,7 +383,7 @@ const AdminDashboard = () => {
                   </div>
                   <div className="flex space-x-2">
                     <Button variant="outline" size="sm">Edit</Button>
-                    {article.status === 'approved' && (
+                    {article.status === 'approved' || article.status === 'published' && (
                       <Button variant="outline" size="sm">View</Button>
                     )}
                   </div>
