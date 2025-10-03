@@ -1,555 +1,481 @@
 "use client";
-import React, { useEffect, useState } from 'react';
-
+import React, { useState } from 'react';
 import { 
   FileText, 
-  Download, 
   Clock, 
-  CheckCircle,
-  XCircle,
-  PlusCircle, 
-  LogOut, 
-  BookOpen,
-  BarChart3,
-  MessageSquare,
+  CheckCircle, 
+  XCircle, 
+  Eye,
   User,
+  Calendar,
+  Plus,
+  Image,
+  Trash2,
   Save,
-  X,
-  Upload,
-  Image as ImageIcon,
-  Trash2
+  Delete
 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useDatabase } from '@/context/Database';
+import { set } from 'date-fns';
 import { useSession } from 'next-auth/react';
+import { se } from 'date-fns/locale';
 const voucher_codes = require("voucher-code-generator");
-
-
-const RenderNewsView = (): React.ReactNode => {
-    
-  const [showNewArticleForm, setShowNewArticleForm] = useState<boolean>(false);
-  const {data: session } = useSession();
-    interface Stat {
-  title: string;
-  value: string;
-  icon: React.ComponentType<{ className?: string }>;
-  color: string;
-}
-
-interface Download {
-  name: string;
-  date: string;
-  size: string;
-  type: string;
-}
-
-interface ArticleImage {
-  id: string;
-  file: File;
-  preview: string;
-  caption: string;
-}
 
 interface Article {
   id: string;
   title: string;
-  status: 'approved' | 'pending' | 'declined';
-  submittedAt: string;
-  views: number;
+  content: string;
+  author: string;
+  grade: string;
   category: string;
-  content?: string;
-  reason?: string;
-  grade?: string;
-  author?: string;
-  images?: ArticleImage[];
+  submittedAt: string;
+  status: string;
+  featuredImage: string;
 }
 
 interface NewArticle {
   title: string;
   category: string;
+  featuredImage: any;
   paragraphs: string[];
-  summary: string;
-  images: ArticleImage[];
 }
+const generateUniqueCode = (prefix: string):string => {
+  return voucher_codes
+    .generate({
+      count: 1,
+      length: 10,
+      prefix: prefix,
+      charset: "alphabetic",
+    })[0]
+    .toUpperCase();
+};
+const RenderNewsView: React.FC = () => {
+  const {posts, setPosts} = useDatabase();
+  const [articles, setArticles] = useState<Article[]>(posts);
+  const{data: session} = useSession();
 
-    const stats: Stat[] = [
-    { title: 'Total Downloads', value: '23', icon: Download, color: 'text-blue-600' },
-    { title: 'Articles Posted', value: '8', icon: FileText, color: 'text-green-600' },
-    { title: 'Pending Approval', value: '2', icon: Clock, color: 'text-orange-600' },
-    { title: 'Approved Articles', value: '5', icon: CheckCircle, color: 'text-purple-600' }
-  ];
 
-  const downloads: Download[] = [
-    { name: 'Term 2 Exam Guidelines.pdf', date: '2 days ago', size: '2.4 MB', type: 'PDF' },
-    { name: 'Mathematics Study Notes.pdf', date: '1 week ago', size: '1.8 MB', type: 'PDF' },
-    { name: 'Science Lab Manual.docx', date: '2 weeks ago', size: '3.2 MB', type: 'DOCX' },
-    { name: 'History Assignment Template.pdf', date: '3 weeks ago', size: '890 KB', type: 'PDF' },
-    { name: 'English Literature Notes.pdf', date: '1 month ago', size: '2.1 MB', type: 'PDF' }
-  ];
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
+  const [newArticle, setNewArticle] = useState<NewArticle>({
+    title: '',
+    category: '',
+    featuredImage: '',
+    paragraphs: ['']
+  });
 
-
-    const generateCode = (prefix: string) => {
-      return voucher_codes.generate({
-        count: 1,
-        prefix,
-        length: 10,
-        charset:"alphabetic"
-      })[0].toUpperCase();
-    }
-    
-
-    const [newArticle, setNewArticle] = useState<NewArticle>({
-        title: '',
-        category: '',
-        paragraphs: [''],
-        summary: '',
-        images: []
-      });
-    
-      const [articles, setArticles] = useState<Article[]>()
-    
-
-    const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>): void => {
-    const files = event.target.files;
-    if (!files) return;
-
-    const maxImages = 5;
-    if (newArticle.images.length + files.length > maxImages) {
-      alert(`You can only upload a maximum of ${maxImages} images per article.`);
-      return;
-    }
-
-    const newImages: ArticleImage[] = [];
-    
-    Array.from(files).forEach((file) => {
-      // Validate file type
-      if (!file.type.startsWith('image/')) {
-        alert('Please only upload image files.');
-        return;
-      }
-
-      // Validate file size (5MB max)
-      const maxSize = 5 * 1024 * 1024; // 5MB
-      if (file.size > maxSize) {
-        alert('Image size should be less than 5MB.');
-        return;
-      }
-
-      const imageId = generateCode('IMG-');
-      const preview = URL.createObjectURL(file);
-      
-      newImages.push({
-        id: imageId,
-        file,
-        preview,
-        caption: ''
-      });
-    });
-
-    setNewArticle({
-      ...newArticle,
-      images: [...newArticle.images, ...newImages]
-    });
-
-    // Clear the input
-    event.target.value = '';
-  };
-    const updateImageCaption = (imageId: string, caption: string): void => {
-    setNewArticle({
-      ...newArticle,
-      images: newArticle.images.map(img => 
-        img.id === imageId ? { ...img, caption } : img
-      )
-    });
-  };
-      const removeImage = (imageId: string): void => {
-    const imageToRemove = newArticle.images.find((img:{ id: string; preview: string; }) => img.id === imageId);
-    if (imageToRemove) {
-      URL.revokeObjectURL(imageToRemove.preview);
-    }
-    
-    setNewArticle({
-      ...newArticle,
-      images: newArticle.images.filter((img:{ id: string; preview: string; }) => img.id !== imageId)
-    });
-  };
-
-  const handleSubmitArticle = async (): Promise<void> => {
-    if (!newArticle.title || !newArticle.category || newArticle.paragraphs.some((p: any) => p.trim() === '')) {
-      alert('Please fill in all required fields and ensure all paragraphs have content');
-      return;
-    }
-
-    if (newArticle.images.length === 0) {
-      alert('Please upload at least one image for your article');
-      return;
-    }
-
-    // Create FormData for file upload
-    const formData = new FormData();
-    
-    const articleToAdd: any = {
-      id: generateCode('ARTICLE-'),
-      title: newArticle.title,
-      category: newArticle.category,
-      content: newArticle.paragraphs.join('\n\n'),
-      summary: newArticle.summary,
-      status: 'pending',
-      submittedAt: new Date().toLocaleString(),
-      views: 0,
-      grade: (session?.user as { grade: string | undefined })?.grade || '',
-      author: session?.user?.name || '',
-      reason: ""
+const uploadImage = async (): Promise<string> => {
+  const apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
+  const imageFile = newArticle.featuredImage;
+  
+  if (!imageFile || !(imageFile instanceof File)) {
+    throw new Error('No valid image file selected');
+  }
+  
+  console.log('Uploading file:', imageFile.name, 'Size:', imageFile.size, 'Type:', imageFile.type);
+  
+  // Convert File to base64 (matching the docs format)
+  const base64 = await new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const result = reader.result as string;
+      // Remove the data:image/...;base64, prefix to get pure base64
+      const base64Data = result.replace(/^data:image\/\w+;base64,/, '');
+      resolve(base64Data);
     };
-
-    // Add article data
-    formData.append('article', JSON.stringify(articleToAdd));
-    
-    // Add images and captions
-    newArticle.images.forEach((image: any, index: any) => {
-      formData.append(`image_${index}`, image.file);
-      formData.append(`caption_${index}`, image.caption);
+    reader.onerror = reject;
+    reader.readAsDataURL(imageFile);
+  });
+  
+  // Create FormData exactly as shown in docs
+  const formData = new FormData();
+  formData.append('image', base64);
+  
+  try {
+    const response = await fetch(`https://api.imgbb.com/1/upload?key=${apiKey}`, {
+      method: 'POST',
+      body: formData
     });
+    
+    const data = await response.json();
+    
+    if (!response.ok) {
+      console.error('ImgBB error response:', data);
+      throw new Error(`Upload failed: ${data.error?.message || response.statusText}`);
+    }
+    
+    // Return the direct image URL (not the viewer URL)
+    return data.data.url;
+    
+  } catch (error) {
+    console.error('Upload failed:', error);
+    throw error;
+  }
+};
+
+  const handleAddParagraph = () => {
+    setNewArticle(prev => ({
+      ...prev,
+      paragraphs: [...prev.paragraphs, '']
+    }));
+  };
+
+  const handleRemoveParagraph = (index: number): void => {
+    if (newArticle.paragraphs.length > 1) {
+      setNewArticle(prev => ({
+        ...prev,
+        paragraphs: prev.paragraphs.filter((_, i) => i !== index)
+      }));
+    }
+  };
+
+  const handleParagraphChange = (index: number, value: string): void => {
+    setNewArticle(prev => ({
+      ...prev,
+      paragraphs: prev.paragraphs.map((para, i) => i === index ? value : para)
+    }));
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const file = e.target.files?.[0];
+  if (file) {
+    // Store the actual File object, NOT the path
+    setNewArticle({ ...newArticle, featuredImage: file });
+  }
+};
+
+ const handleDeleteArticle = async (articleId: string) => {
+    if (!confirm('Are you sure you want to delete this article?')) {
+      return;
+    }
 
     try {
-      await fetch('/api/upload-article', {
-        method: 'POST',
-        body: formData
+      const res = await fetch('/api/delete-article', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ id: articleId })
       });
 
-      setArticles([articleToAdd, ...posts]);
-      
-      // Cleanup image previews
-      newArticle.images.forEach((img: any) => URL.revokeObjectURL(img.preview));
-      
-      setNewArticle({ title: '', category: '', paragraphs: [''], summary: '', images: [] });
-      setShowNewArticleForm(false);
-
-      alert('Article submitted successfully! It will be reviewed shortly.');
+      if (res.ok) {
+        setArticles(prev => prev.filter(article => article.id !== articleId));
+        if (selectedArticle?.id === articleId) {
+          setSelectedArticle(null);
+        }
+      } else {
+        console.error('Delete failed:', await res.text());
+        alert('Failed to delete article');
+      }
     } catch (error) {
-      console.error('Error submitting article:', error);
-      alert('Error submitting article. Please try again.');
+      console.error('Delete error:', error);
+      alert('Failed to delete article');
     }
   };
 
-     const handleCancelArticle = (): void => {
-    // Cleanup image previews
-    newArticle.images.forEach((img: { preview: string; }) => URL.revokeObjectURL(img.preview));
-    
-    setNewArticle({ title: '', category: '', paragraphs: [''], summary: '', images: [] });
-    setShowNewArticleForm(false);
-  };
+  const handleSaveArticle = async () => {
+    if (newArticle.title && newArticle.paragraphs[0]) {
+      let imageURL = await uploadImage();
+      const article = {
+        id: generateUniqueCode("ARTICLE-"),
+        title: newArticle.title,
+        content: newArticle.paragraphs.join('\n\n'),
+        author: session?.user?.name || 'Anonymous',
+        grade: (session?.user as any)?.grade || 'N/A',
+        category: newArticle.category || 'General',
+        submittedAt: new Date().toLocaleString(),
+        status: 'pending',
+        featuredImage: imageURL || 'https://via.placeholder.com/300x200/6b7280/white?text=No+Image'
+      };
 
-  const addParagraph = (): void => {
-    setNewArticle({
-      ...newArticle,
-      paragraphs: [...newArticle.paragraphs, '']
-    });
-  };
+      console.log(imageURL)
 
-
-    const removeParagraph = (index: number): void => {
-    if (newArticle.paragraphs.length > 1) {
-      const updatedParagraphs = newArticle.paragraphs.filter((_: any, i: any) => i !== index);
-      setNewArticle({
-        ...newArticle,
-        paragraphs: updatedParagraphs
+      const res = await fetch('/api/upload-article', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(article)
       });
+      
+      if (res.ok){
+      setArticles(prev => [article, ...prev]);
+      setNewArticle({
+        title: '',
+        category: '',
+        featuredImage: '',
+        paragraphs: ['']
+      });
+      setShowAddForm(false);
+
     }
-  };
-  
-  
-    const updateParagraph = (index: number, value: string): void => {
-    const lines = value.split('\n');
-    if (lines.length > 6) {
-      alert('Each paragraph is limited to 6 lines. Please split longer content into multiple paragraphs.');
-      return;
+    else{
+      console.log('error')
     }
-    
-    const updatedParagraphs = [...newArticle.paragraphs];
-    updatedParagraphs[index] = value;
-    setNewArticle({
-      ...newArticle,
-      paragraphs: updatedParagraphs
-    });
+    }
   };
 
-    const {posts} = useDatabase();
-    const getStatusIcon = (status: string) => {
+  const getStatusIcon = (status: Article['status']): React.ReactNode => {
     switch (status) {
-      case 'approved':
+      case 'published':
         return <CheckCircle className="w-4 h-4 text-green-600" />;
       case 'pending':
-        return <Clock className="w-4 h-4 text-orange-600" />;
-      case 'declined':
-        return <XCircle className="w-4 h-4 text-red-600" />;
+        return <Clock className="w-4 h-4 text-yellow-600" />;
       default:
         return null;
     }
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status: Article['status']): string => {
     switch (status) {
-      case 'approved':
+      case 'published':
         return 'bg-green-100 text-green-800';
       case 'pending':
-        return 'bg-orange-100 text-orange-800';
-      case 'declined':
-        return 'bg-red-100 text-red-800';
+        return 'bg-yellow-100 text-yellow-800';
       default:
         return 'bg-gray-100 text-gray-800';
     }
   };
 
-  return( <div className="space-y-6">
+  return (
+    <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-bold">My Articles</h2>
-        <Button 
-          className="bg-red-800 hover:bg-red-900"
-          onClick={() => setShowNewArticleForm(true)}
-        >
-          <PlusCircle className="w-4 h-4 mr-2" />
-          New Article
-        </Button>
+        <div>
+          <h2 className="text-2xl font-bold text-gray-900">School News</h2>
+          <p className="text-gray-600">Manage and publish school news articles</p>
+        </div>
+        <div className="flex items-center space-x-2 px-4 py-2 bg-yellow-100 rounded-lg">
+          <Clock className="w-5 h-5 text-yellow-600" />
+          <span className="font-medium text-yellow-800">{articles.length} articles published</span>
+        </div>
       </div>
 
-      {showNewArticleForm && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex justify-between items-center">
-              Create New Article
-              <Button 
-                variant="outline" 
-                size="sm"
-                onClick={handleCancelArticle}
-              >
-                <X className="w-4 h-4" />
-              </Button>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-6">
+      <div className="flex justify-end mb-4">
+        <button
+          onClick={() => setShowAddForm(true)}
+          className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+        >
+          <Plus className="w-5 h-5" />
+          <span>Add New Article</span>
+        </button>
+      </div>
+
+      {showAddForm && (
+        <div className="bg-white border rounded-lg p-6 shadow-lg">
+          <div className="flex justify-between items-center mb-4">
+            <h3 className="text-lg font-semibold">Create New Article</h3>
+            <button
+              title='Close'
+              onClick={() => setShowAddForm(false)}
+              className="text-gray-500 hover:text-gray-700"
+            >
+              <XCircle className="w-5 h-5" />
+            </button>
+          </div>
+          
+          <div className="space-y-4">
+            <div className="flex  flex-col gap-4">
               <div>
-                <label className="block text-sm font-medium mb-2">Title *</label>
-                <Input
-                  placeholder="Enter article title"
+                <label className="block text-sm font-medium text-gray-700 mb-1">Title</label>
+                <input
+                  type="text"
                   value={newArticle.title}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewArticle({...newArticle, title: e.target.value})}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNewArticle(prev => ({ ...prev, title: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="Enter article title"
                 />
               </div>
               
+            </div>
+            
+            <div className="flex flex-col gap-4">
               <div>
-                <label className="block text-sm font-medium mb-2">Category *</label>
-                <Select 
-                  value={newArticle.category} 
-                  onValueChange={(value: string) => setNewArticle({...newArticle, category: value})}
+                <label className="block text-sm font-medium text-gray-700 mb-1">Category</label>
+                <select
+                  value={newArticle.category}
+                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setNewArticle(prev => ({ ...prev, category: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a category" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Academics">Academics</SelectItem>
-                    <SelectItem value="Sports">Sports</SelectItem>
-                    <SelectItem value="Arts">Arts</SelectItem>
-                    <SelectItem value="Environment">Environment</SelectItem>
-                    <SelectItem value="Technology">Technology</SelectItem>
-                    <SelectItem value="Community">Community</SelectItem>
-                    <SelectItem value="Events">Events</SelectItem>
-                  </SelectContent>
-                </Select>
+                  <option value="">Select category</option>
+                  <option value="Sports">Sports</option>
+                  <option value="Academic">Academic</option>
+                  <option value="Cultural">Cultural</option>
+                  <option value="Community">Community</option>
+                  <option value="General">General</option>
+                </select>
               </div>
-
               <div>
-                <label className="block text-sm font-medium mb-2">Summary</label>
-                <Textarea
-                  placeholder="Brief summary of your article (optional)"
-                  value={newArticle.summary}
-                  onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setNewArticle({...newArticle, summary: e.target.value})}
-                  rows={2}
+                <label className="block text-sm font-medium text-gray-700 mb-1">Featured Image URL</label>
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="https://example.com/image.jpg"
                 />
-              </div>
-
-              {/* Image Upload Section */}
-              <div>
-                <label className="block text-sm font-medium mb-2">Images *</label>
-                <div className="space-y-4">
-                  {/* Upload Button */}
-                  <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors">
-                    <input
-                      type="file"
-                      id="image-upload"
-                      multiple
-                      accept="image/*"
-                      onChange={handleImageUpload}
-                      className="hidden"
-                    />
-                    <label
-                      htmlFor="image-upload"
-                      className="cursor-pointer flex flex-col items-center space-y-2"
-                    >
-                      <Upload className="w-8 h-8 text-gray-400" />
-                      <div className="text-sm text-gray-600">
-                        <span className="font-medium text-red-800 hover:text-red-900">Click to upload images</span>
-                        <p className="text-xs text-gray-500 mt-1">
-                          At least 1 image required. Maximum 5 images, up to 5MB each. Supported formats: JPG, PNG, GIF, WebP
-                        </p>
-                      </div>
-                    </label>
-                  </div>
-
-                  {/* Image Previews */}
-                  {newArticle.images.length > 0 && (
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      {newArticle.images.map((image: any, index: number) => (
-                        <div key={image.id} className="border rounded-lg p-4 bg-gray-50">
-                          <div className="relative">
-                            <img
-                              src={image.preview}
-                              alt={`Preview ${index + 1}`}
-                              className="w-full h-48 object-cover rounded-lg"
-                            />
-                            <Button
-                              variant="destructive"
-                              size="sm"
-                              className="absolute top-2 right-2"
-                              onClick={() => removeImage(image.id)}
-                            >
-                              <Trash2 className="w-3 h-3" />
-                            </Button>
-                          </div>
-                          <div className="mt-3">
-                            <label className="block text-xs font-medium text-gray-700 mb-1">
-                              Image Caption (Optional)
-                            </label>
-                            <Input
-                              placeholder="Enter image caption..."
-                              value={image.caption}
-                              onChange={(e: React.ChangeEvent<HTMLInputElement>) => 
-                                updateImageCaption(image.id, e.target.value)
-                              }
-                              className="text-sm"
-                            />
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-              
-              <div>
-                <label className="block text-sm font-medium mb-2">Article Content *</label>
-                <div className="space-y-4">
-                  {newArticle.paragraphs.map((paragraph: string, index: number) => (
-                    <div key={index} className="border rounded-lg p-4 bg-gray-50">
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="text-sm font-medium text-gray-700">
-                          Paragraph {index + 1}
-                        </span>
-                        <div className="flex space-x-2">
-                          {newArticle.paragraphs.length > 1 && (
-                            <Button
-                              variant="outline"
-                              size="sm"
-                              onClick={() => removeParagraph(index)}
-                              className="text-red-600 hover:text-red-700"
-                            >
-                              <X className="w-3 h-3" />
-                            </Button>
-                          )}
-                        </div>
-                      </div>
-                      <Textarea
-                        placeholder={`Write paragraph ${index + 1} here... (Max 6 lines)`}
-                        value={paragraph}
-                        onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => updateParagraph(index, e.target.value)}
-                        rows={4}
-                        className="resize-none"
-                      />
-                      <div className="mt-1 text-xs text-gray-500">
-                        Lines: {paragraph.split('\n').length}/6
-                      </div>
-                    </div>
-                  ))}
-                  
-                  <Button
-                    variant="outline"
-                    onClick={addParagraph}
-                    className="w-full border-dashed border-2 hover:bg-gray-50"
-                  >
-                    <PlusCircle className="w-4 h-4 mr-2" />
-                    Add New Paragraph
-                  </Button>
-                </div>
-              </div>
-              
-              <div className="flex justify-end space-x-2">
-                <Button variant="outline" onClick={handleCancelArticle}>
-                  Cancel
-                </Button>
-                <Button className="bg-red-800 hover:bg-red-900" onClick={handleSubmitArticle}>
-                  <Save className="w-4 h-4 mr-2" />
-                  Submit Article
-                </Button>
               </div>
             </div>
-          </CardContent>
-        </Card>
+            
+            <div>
+              <div className="flex justify-between items-center mb-2">
+                <label className="block text-sm font-medium text-gray-700">Article Content</label>
+                <button
+                  onClick={handleAddParagraph}
+                  className="text-blue-600 hover:text-blue-800 text-sm flex items-center"
+                >
+                  <Plus className="w-4 h-4 mr-1" />
+                  Add Paragraph
+                </button>
+              </div>
+              
+              {newArticle.paragraphs.map((paragraph, index) => (
+                <div key={index} className="flex space-x-2 mb-3">
+                  <textarea
+                    value={paragraph}
+                    onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => handleParagraphChange(index, e.target.value)}
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder={`Paragraph ${index + 1}...`}
+                    rows={3}
+                  />
+                  {newArticle.paragraphs.length > 1 && (
+                    <button
+                      title='Remove Paragraph'
+                      onClick={() => handleRemoveParagraph(index)}
+                      className="text-red-600 hover:text-red-800 p-2"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  )}
+                </div>
+              ))}
+            </div>
+            
+            <div className="flex space-x-3 pt-4 border-t">
+              <button
+                onClick={handleSaveArticle}
+                className="flex items-center space-x-2 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+              >
+                <Save className="w-4 h-4" />
+                <span>Publish Article</span>
+              </button>
+              <button
+                onClick={() => setShowAddForm(false)}
+                className="px-4 py-2 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50"
+              >
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
       )}
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Article Status Overview</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            {posts.map((article: any, index: number) => (
-              <div key={index} className="p-4 border rounded-lg hover:bg-gray-50">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <div className="flex items-center space-x-2 mb-2">
-                      {getStatusIcon(article.status)}
-                      <h4 className="font-medium">{article.title}</h4>
-                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(article.status)}`}>
-                        {article.status.charAt(0).toUpperCase() + article.status.slice(1)}
-                      </span>
-                      {article.images && article.images.length > 0 && (
-                        <span className="flex items-center text-xs text-gray-500">
-                          <ImageIcon className="w-3 h-3 mr-1" />
-                          {article.images.length} image{article.images.length > 1 ? 's' : ''}
-                        </span>
-                      )}
-                    </div>
-                    <div className="flex items-center space-x-4 text-sm text-gray-500">
-                      <span>Category: {article.category}</span>
-                      <span>Submitted {article.submittedAt}</span>
-                      {article.status === 'approved' && (
-                        <span>{article.views} views</span>
-                      )}
-                    </div>
-                    {article.status === 'declined' && article.reason && (
-                      <div className="mt-2 p-2 bg-red-50 border border-red-200 rounded text-sm text-red-700">
-                        <strong>Reason:</strong> {article.reason}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-2">
+          <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+            <div className="px-6 py-4 border-b border-gray-200">
+              <h3 className="text-lg font-semibold text-gray-900">Published Articles</h3>
+            </div>
+            <div className="p-6">
+              <div className="space-y-4">
+                {articles.map((article) => (
+                  <div key={article.id} className="border rounded-lg p-4 hover:shadow-md transition-shadow">
+                    <div className="flex space-x-4">
+                      <img
+                        src={article.featuredImage}
+                        alt={article.title}
+                        className="w-40 h-40 object-cover rounded-lg flex-shrink-0"
+                      />
+                      <div className="flex-1">
+                        <div className="flex items-start justify-between mb-3">
+                          <div className="flex-1">
+                            <h3 className="font-semibold text-lg mb-1">{article.title}</h3>
+                            <div className="flex items-center space-x-4 text-sm text-gray-600 mb-2">
+                              <span className="flex items-center">
+                                <User className="w-4 h-4 mr-1" />
+                                {article.author}
+                              </span>
+                              <span className="flex items-center">
+                                <Calendar className="w-4 h-4 mr-1" />
+                                {article.submittedAt}
+                              </span>
+                              <span className="px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
+                                {article.category}
+                              </span>
+                            </div>
+                            <p className="text-gray-700 line-clamp-2">{article.content}</p>
+                          </div>
+                          <span className={`px-3 py-1 rounded-full text-sm font-medium flex items-center ${getStatusColor(article.status)} ml-4`}>
+                            {getStatusIcon(article.status)}
+                            <span className="ml-1 capitalize">{article.status}</span>
+                          </span>
+                        </div>
+                        
+                        <div className="flex space-x-2">
+                          <button
+                            onClick={() => setSelectedArticle(article)}
+                            className="flex items-center space-x-1 px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50"
+                          >
+                            <Eye className="w-4 h-4" />
+                            <span>View</span>
+                          </button>
+
+                          <button
+                            onClick={() => handleDeleteArticle(article.id)}
+                            className="flex items-center space-x-1 px-3 py-1 text-sm border border-gray-300 rounded hover:bg-gray-50"
+                          >
+                            <Delete className="w-4 h-4" />
+                            <span>Delete</span>
+                          </button>
+                        </div>
                       </div>
-                    )}
+                    </div>
                   </div>
-                  <div className="flex space-x-2">
-                    <Button variant="outline" size="sm">Edit</Button>
-                    {article.status === 'approved' || article.status === 'published' && (
-                      <Button variant="outline" size="sm">View</Button>
-                    )}
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          {selectedArticle ? (
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+              <div className="px-6 py-4 border-b border-gray-200">
+                <h3 className="text-lg font-semibold text-gray-900">Article Preview</h3>
+              </div>
+              <div className="p-6">
+                <div className="space-y-4">
+                  <img
+                    src={selectedArticle.featuredImage}
+                    alt={selectedArticle.title}
+                    className="w-full h-48 object-cover rounded-lg"
+                  />
+                  <div>
+                    <h3 className="text-lg font-semibold mb-2">{selectedArticle.title}</h3>
+                    <div className="text-sm text-gray-600 mb-4">
+                      <p>By: {selectedArticle.author}</p>
+                      <p>Category: {selectedArticle.category}</p>
+                      <p>Published: {selectedArticle.submittedAt}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="prose prose-sm">
+                    <p className="text-gray-700 leading-relaxed">{selectedArticle.content}</p>
                   </div>
                 </div>
               </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+            </div>
+          ) : (
+            <div className="bg-white rounded-lg shadow-sm border border-gray-200">
+              <div className="p-8 text-center">
+                <FileText className="w-12 h-12 mx-auto text-gray-400 mb-4" />
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">Select an Article</h3>
+                <p className="text-gray-600">Choose an article from the list to preview it here.</p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
     </div>
-)};
+  );
+};
 
-  export default RenderNewsView;
+export default RenderNewsView;
