@@ -30,8 +30,8 @@ import DigitalLibrary from './DigitalLibrary';
 import { useDatabase } from '@/context/Database';
 import { useSession } from 'next-auth/react';
 import { id } from 'date-fns/locale';
-import RenderNewsView from '../HomePage/RenderNewsView';
-import RenderContent from '../HomePage/RenderContent';
+import RenderNewsView from './RenderNewsView';
+import RenderContent from './RenderContent';
 
 
 

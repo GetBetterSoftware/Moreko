@@ -21,8 +21,8 @@ import {
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '@/components/ui/button';
-import RenderNewsView from '../HomePage/RenderNewsView';
-import DigitalLibrary from '../Dashboard/DigitalLibrary';
+import RenderNewsView from './RenderNewsView';
+import DigitalLibrary from './DigitalLibrary';
 import RenderDownloadsView from './RenderDownloadsView';
 const voucher_codes = require("voucher-code-generator");
 
