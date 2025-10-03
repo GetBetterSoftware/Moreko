@@ -19,8 +19,8 @@ const PlatformAccess = () => {
             <p className="text-gray-700 text-lg mb-6">
               Our digital magazine, news articles, downloadable resources, and communication features are available to registered students and parents only.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/register" className="bg-gray-100 text-red-800 hover:bg-gray-100 cursor-pointer" >
+            <div className="flex flex-col sm:flex-row gap-4 justify-center bg-transparent">
+              <Link href="/register" className=" text-red-800 hover:bg-gray-100 cursor-pointer" >
               <Button 
                 size="lg" 
                 className="bg-red-800 hover:bg-red-900 text-gray-100 cursor-pointer"

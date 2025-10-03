@@ -1,5 +1,6 @@
 "use client";
 import React, { useState, useMemo } from 'react';
+import styles from "@/components/styles/HomepageStyles.module.css";
 import { 
   Search, 
   Download, 
@@ -316,7 +317,7 @@ const DigitalLibrary: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen p-4">
+    <div className={`min-h-screen p-4 ${styles.styles}`}>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
@@ -357,7 +358,7 @@ const DigitalLibrary: React.FC = () => {
               />
             </div>
 
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between overflow-x-auto">
               <button
                 onClick={() => setShowFilters(!showFilters)}
                 className="flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50"
@@ -378,9 +379,6 @@ const DigitalLibrary: React.FC = () => {
                   <option value="alphabetical">A to Z</option>
                 </select>
                 
-                <span className="text-gray-600">
-                  {filteredAndSortedResources.length} resources found
-                </span>
               </div>
             </div>
 

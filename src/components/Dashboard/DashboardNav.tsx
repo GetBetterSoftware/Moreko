@@ -1,7 +1,10 @@
 "use client";
 import {
   Book,
+  BookOpen,
   DoorOpen,
+  Download,
+  FileText,
   HamburgerIcon,
   Home,
   ImageDown,
@@ -118,6 +121,34 @@ const NavLinks = ({ menu }: any) => {
       >
         <User className="w-4 h-4 mr-2" />
         Sign Out
+      </Link>
+      <Link
+        href="/student-dashboard"
+        className="text-red-800 border-white hover:bg-gray-100 cursor-pointer flex flex-row items-center p-3 w-50 bg-white rounded"
+      >
+        <Settings className="w-4 h-4 mr-2" />
+        Dashboard
+      </Link>
+      <Link
+        href=""
+        className="text-red-800 border-white hover:bg-gray-100 cursor-pointer flex flex-row items-center p-3 w-50 bg-white rounded"
+      >
+        <BookOpen className="w-4 h-4 mr-2" />
+        Library
+      </Link>
+      <Link
+        href=""
+        className="text-red-800 border-white hover:bg-gray-100 cursor-pointer flex flex-row items-center p-3 w-50 bg-white rounded"
+      >
+        <FileText className="w-4 h-4 mr-2" />
+        My Articles
+      </Link>
+      <Link
+        href=""
+        className="text-red-800 border-white hover:bg-gray-100 cursor-pointer flex flex-row items-center p-3 w-50 bg-white rounded"
+      >
+        <Download className="w-4 h-4 mr-2" />
+          Downloads
       </Link>
     </div>
   );
