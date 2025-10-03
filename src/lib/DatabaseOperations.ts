@@ -15,21 +15,18 @@ export const userExists = async (collectionName: string, userPhone: string, user
     return !querySnapshot.empty;
 }
 
-export const getArticle = async (collectionName: string, collectionName2: string) => {
+export const getArticle = async (collectionName: string) => {
     const posts: DocumentData[] = [];
-    const articles: DocumentData[] = [];
+    
 
     const querySnapshot = await getDocs(collection(db, collectionName));
     querySnapshot.forEach((doc) => {
         posts.push(doc.data());
     });
 
-    const querySnapshot2 = await getDocs(collection(db, collectionName2));
-    querySnapshot2.forEach((doc) => {
-        articles.push(doc.data());
-    });
+    
 
-    return posts.concat(articles);
+    return posts;
 }
 
 export const getParent = async (collectionName: string, phone: string, name: string) => {

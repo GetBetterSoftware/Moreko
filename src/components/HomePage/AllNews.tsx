@@ -1,135 +1,37 @@
 "use client";
 import React, { useState } from 'react';
-import { Calendar, Image, Search, Filter, Clock, User } from 'lucide-react';
+import { Calendar, Image, Search, Filter, Clock, User, ImageIcon } from 'lucide-react';
+import { useDatabase } from '@/context/Database';
 
 interface NewsArticle {
   id: number;
   title: string;
-  excerpt: string;
   content: string;
-  date: string;
+  submittedAt: string;
   author: string;
   category: string;
-  image: string;
-  featured: boolean;
-  readTime: number;
+  featuredImage: string;
+  
 }
 
-const newsArticles: NewsArticle[] = [
-  {
-    id: 1,
-    title: "School receives R50,000 library grant for digital transformation",
-    excerpt: "Moreko High School has been awarded a significant grant to upgrade the school library with new books, digital resources, and computer facilities.",
-    content: "The Department of Education has awarded Moreko High School a substantial R50,000 grant to modernize our library facilities. This funding will be used to purchase new textbooks, digital learning resources, and upgrade computer systems. The project aims to enhance learning experiences for all students and prepare them for the digital age.",
-    date: "January 15, 2024",
-    author: "Mrs. Sarah Mogale",
-    category: "Education",
-    image: "/placeholder.svg",
-    featured: true,
-    readTime: 3
-  },
-  {
-    id: 2,
-    title: "Grade 12 farewell celebration marks end of an era",
-    excerpt: "Our Grade 12 learners celebrated their final year with a memorable farewell ceremony attended by staff, parents, and community members.",
-    content: "The annual Grade 12 farewell ceremony was held in the school hall, marking the end of an important chapter for our graduating class. Parents, teachers, and community members gathered to celebrate the achievements of our students and wish them well for their future endeavors.",
-    date: "January 10, 2024",
-    author: "Mr. John Mthembu",
-    category: "Events",
-    image: "/placeholder.svg",
-    featured: false,
-    readTime: 2
-  },
-  {
-    id: 3,
-    title: "Principal wins Outstanding Educator of the Year award",
-    excerpt: "Mrs. Mogale has been recognized as Outstanding Educator of the Year at the provincial education awards ceremony.",
-    content: "We are proud to announce that our principal, Mrs. Sarah Mogale, has been honored with the Outstanding Educator of the Year award at the Gauteng Provincial Education Awards. This recognition celebrates her dedication to educational excellence and community development.",
-    date: "January 5, 2024",
-    author: "School Communications",
-    category: "Awards",
-    image: "/placeholder.svg",
-    featured: true,
-    readTime: 2
-  },
-  {
-    id: 4,
-    title: "New science laboratory opens for Grade 10-12 students",
-    excerpt: "The newly constructed science laboratory will provide hands-on learning opportunities for our senior students in physics, chemistry, and biology.",
-    content: "After months of construction, our state-of-the-art science laboratory is now open for use. The facility features modern equipment and safety measures that will enhance practical learning for our Grade 10-12 students across all science subjects.",
-    date: "December 20, 2023",
-    author: "Dr. Thabo Motsepe",
-    category: "Facilities",
-    image: "/placeholder.svg",
-    featured: false,
-    readTime: 4
-  },
-  {
-    id: 5,
-    title: "Inter-school sports tournament brings home three trophies",
-    excerpt: "Our athletics team excelled at the regional inter-school sports tournament, securing victories in soccer, netball, and athletics.",
-    content: "Moreko High School athletes demonstrated exceptional skill and sportsmanship at the annual regional sports tournament. Our teams brought home trophies in boys' soccer, girls' netball, and mixed athletics, making the entire school community proud.",
-    date: "December 15, 2023",
-    author: "Coach Peter Ndlovu",
-    category: "Sports",
-    image: "/placeholder.svg",
-    featured: false,
-    readTime: 3
-  },
-  {
-    id: 6,
-    title: "Community outreach program helps 50 local families",
-    excerpt: "Students and staff collaborated on a successful food drive that provided essential supplies to families in need during the holiday season.",
-    content: "The school's annual community outreach program exceeded expectations this year, with students, teachers, and parents working together to collect and distribute food parcels to 50 families in our local community. The initiative demonstrates our commitment to ubuntu and community support.",
-    date: "December 10, 2023",
-    author: "Ms. Grace Khumalo",
-    category: "Community",
-    image: "/placeholder.svg",
-    featured: false,
-    readTime: 2
-  },
-  {
-    id: 7,
-    title: "Matric results show 15% improvement in pass rate",
-    excerpt: "The 2023 matric class achieved an impressive 87% pass rate, representing significant improvement from previous years.",
-    content: "We are delighted to announce that our 2023 matric students achieved an 87% pass rate, showing a remarkable 15% improvement from the previous year. This success is attributed to dedicated teaching, extra classes, and strong parent-school partnerships.",
-    date: "January 20, 2024",
-    author: "Mrs. Sarah Mogale",
-    category: "Academic",
-    image: "/placeholder.svg",
-    featured: true,
-    readTime: 3
-  },
-  {
-    id: 8,
-    title: "New computer lab equipped with 30 modern workstations",
-    excerpt: "The ICT department has been upgraded with new computers and software to enhance digital literacy among all students.",
-    content: "Thanks to generous donations from local businesses and government support, our new computer laboratory now features 30 modern workstations with updated software. This facility will significantly improve ICT education and prepare students for the digital economy.",
-    date: "November 28, 2023",
-    author: "Mr. David Sithole",
-    category: "Technology",
-    image: "/placeholder.svg",
-    featured: false,
-    readTime: 2
-  }
-];
 
 const categories = ["All", "Education", "Events", "Awards", "Facilities", "Sports", "Community", "Academic"];
 
 const AllNews: React.FC = () => {
+  const {posts} = useDatabase();
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedArticle, setSelectedArticle] = useState<NewsArticle | null>(null);
 
-  const filteredArticles = newsArticles.filter(article => {
+  const filteredArticles = posts.filter((article: any) => {
     const matchesCategory = selectedCategory === "All" || article.category === selectedCategory;
     const matchesSearch = article.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         article.excerpt.toLowerCase().includes(searchTerm.toLowerCase());
+                         article.content.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesCategory && matchesSearch;
   });
 
-  const featuredArticles = filteredArticles.filter(article => article.featured);
-  const regularArticles = filteredArticles.filter(article => !article.featured);
+  const featuredArticles = filteredArticles.filter((article: any) => article.featured);
+  const regularArticles = filteredArticles.filter((article: any) => !article.featured);
 
   const handleReadMore = (article: NewsArticle) => {
     setSelectedArticle(article);
@@ -150,9 +52,17 @@ const AllNews: React.FC = () => {
         </button>
         
         <article className="bg-white rounded-lg shadow-lg overflow-hidden">
-          <div className="aspect-video bg-gray-200 flex items-center justify-center">
-            <Image className="w-16 h-16 text-gray-400" />
-          </div>
+          <div className="aspect-video bg-gray-200 flex items-center justify-center overflow-hidden">
+                     {selectedArticle.featuredImage ? (
+                       <img 
+                         src={selectedArticle.featuredImage} 
+                         alt={selectedArticle.title}
+                         className="w-full h-full object-fit"
+                       />
+                     ) : (
+                       <ImageIcon className="w-16 h-16 text-gray-400" />
+                     )}
+                   </div>
           
           <div className="p-8">
             <div className="flex items-center gap-4 mb-4">
@@ -161,7 +71,6 @@ const AllNews: React.FC = () => {
               </span>
               <div className="flex items-center text-gray-500 text-sm">
                 <Clock className="w-4 h-4 mr-1" />
-                {selectedArticle.readTime} min read
               </div>
             </div>
             
@@ -173,7 +82,7 @@ const AllNews: React.FC = () => {
               <User className="w-4 h-4 mr-2" />
               <span className="mr-4">{selectedArticle.author}</span>
               <Calendar className="w-4 h-4 mr-2" />
-              <span>{selectedArticle.date}</span>
+              <span>{selectedArticle.submittedAt}</span>
             </div>
             
             <div className="prose max-w-none">
@@ -226,11 +135,19 @@ const AllNews: React.FC = () => {
         <div className="mb-12">
           <h2 className="text-2xl font-semibold text-gray-800 mb-6">Featured News</h2>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {featuredArticles.map((article) => (
+            {featuredArticles.map((article: any) => (
               <div key={article.id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
-                <div className="aspect-video bg-gray-200 flex items-center justify-center">
-                  <Image className="w-16 h-16 text-gray-400" />
-                </div>
+                 <div className="aspect-video bg-gray-200 flex items-center justify-center overflow-hidden">
+                            {article.featuredImage ? (
+                              <img 
+                                src={article.featuredImage} 
+                                alt={article.title}
+                                className="w-full h-full object-fit"
+                              />
+                            ) : (
+                              <ImageIcon className="w-16 h-16 text-gray-400" />
+                            )}
+                          </div>
                 
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-3">
@@ -239,7 +156,6 @@ const AllNews: React.FC = () => {
                     </span>
                     <div className="flex items-center text-gray-500 text-sm">
                       <Clock className="w-4 h-4 mr-1" />
-                      {article.readTime} min
                     </div>
                   </div>
                   
@@ -248,7 +164,7 @@ const AllNews: React.FC = () => {
                   </h3>
                   
                   <p className="text-gray-600 mb-4 line-clamp-3">
-                    {article.excerpt}
+                    {article.content.slice(0,100)}
                   </p>
                   
                   <div className="flex items-center justify-between">
@@ -276,11 +192,19 @@ const AllNews: React.FC = () => {
         <div>
           <h2 className="text-2xl font-semibold text-gray-800 mb-6">All News</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {regularArticles.map((article) => (
+            {regularArticles.map((article: any) => (
               <div key={article.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow">
-                <div className="aspect-video bg-gray-200 flex items-center justify-center">
-                  <Image className="w-12 h-12 text-gray-400" />
-                </div>
+                <div className="aspect-video bg-gray-200 flex items-center justify-center overflow-hidden">
+                            {article.featuredImage ? (
+                              <img 
+                                src={article.featuredImage} 
+                                alt={article.title}
+                                className="w-full h-full object-fit"
+                              />
+                            ) : (
+                              <ImageIcon className="w-16 h-16 text-gray-400" />
+                            )}
+                          </div>
                 
                 <div className="p-6">
                   <div className="flex items-center justify-between mb-3">
@@ -289,7 +213,6 @@ const AllNews: React.FC = () => {
                     </span>
                     <div className="flex items-center text-gray-500 text-xs">
                       <Clock className="w-3 h-3 mr-1" />
-                      {article.readTime} min
                     </div>
                   </div>
                   
@@ -298,13 +221,13 @@ const AllNews: React.FC = () => {
                   </h3>
                   
                   <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                    {article.excerpt}
+                    {article.content.slice(0,100)}
                   </p>
                   
                   <div className="flex items-center justify-between">
                     <p className="text-xs text-gray-500 flex items-center">
                       <Calendar className="w-3 h-3 mr-1" />
-                      {article.date}
+                      {article.submittedAt}
                     </p>
                     
                     <button

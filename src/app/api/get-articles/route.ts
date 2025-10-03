@@ -5,7 +5,7 @@ import { NextResponse, NextRequest } from "next/server";
 export async function GET() {
 
   try{
-  const article = await getArticle("student-articles", "posts");  
+  const article = await getArticle( "posts");  
 
   return NextResponse.json(article, {status: 200});
   }
