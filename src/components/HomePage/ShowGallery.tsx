@@ -3,144 +3,32 @@ import React, { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { X, Eye, ArrowLeft, ArrowRight } from 'lucide-react';
+import { useDatabase } from '@/context/Database';
 
 interface GalleryItem {
   id: number;
   title: string;
-  image: string;
+  imageUrl: string;
   description?: string;
   category: string;
 }
 
-const galleryItems: GalleryItem[] = [
-  { 
-    id: 1, 
-    title: "Sports Day 2024 - Athletics Track", 
-    image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=800&h=600&fit=crop",
-    description: "Students competing in the 100m sprint during our annual athletics meet",
-    category: "Sports"
-  },
-  { 
-    id: 2, 
-    title: "Science Fair Winner - Solar Panel Project", 
-    image: "https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=800&h=600&fit=crop",
-    description: "Grade 11 student presenting their innovative solar energy project",
-    category: "Academics"
-  },
-  { 
-    id: 3, 
-    title: "Cultural Day - Traditional Dance", 
-    image: "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=800&h=600&fit=crop",
-    description: "Students performing traditional South African dances in colorful attire",
-    category: "Cultural"
-  },
-  { 
-    id: 4, 
-    title: "Matric Class of 2024 Graduation", 
-    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9d1?w=800&h=600&fit=crop",
-    description: "Proud graduates celebrating their achievements with families",
-    category: "Graduation"
-  },
-  { 
-    id: 5, 
-    title: "Annual Music Concert - School Orchestra", 
-    image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=600&fit=crop",
-    description: "School orchestra performing at the annual music evening",
-    category: "Arts"
-  },
-  { 
-    id: 6, 
-    title: "Art Exhibition - Student Paintings", 
-    image: "https://images.unsplash.com/photo-1460661419201-fd4cecdf8a8b?w=800&h=600&fit=crop",
-    description: "Display of exceptional artwork by our talented art students",
-    category: "Arts"
-  },
-  { 
-    id: 7, 
-    title: "Drama Club - Shakespeare Performance", 
-    image: "https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=800&h=600&fit=crop",
-    description: "Students performing scenes from Romeo and Juliet",
-    category: "Arts"
-  },
-  { 
-    id: 8, 
-    title: "Inter-School Chess Tournament", 
-    image: "https://images.unsplash.com/photo-1529699211952-734e80c4d42b?w=800&h=600&fit=crop",
-    description: "Focused competitors during the regional chess championships",
-    category: "Sports"
-  },
-  { 
-    id: 9, 
-    title: "Science Laboratory - Chemistry Experiment", 
-    image: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=800&h=600&fit=crop",
-    description: "Grade 10 students conducting chemistry experiments",
-    category: "Academics"
-  },
-  { 
-    id: 10, 
-    title: "Soccer Team - Provincial Champions", 
-    image: "https://images.unsplash.com/photo-1574629810360-7efbbe195018?w=800&h=600&fit=crop",
-    description: "Our soccer team celebrating their provincial championship victory",
-    category: "Sports"
-  },
-  { 
-    id: 11, 
-    title: "Library Reading Program", 
-    image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?w=800&h=600&fit=crop",
-    description: "Students participating in the annual reading challenge",
-    category: "Academics"
-  },
-  { 
-    id: 12, 
-    title: "Heritage Day Celebration", 
-    image: "https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800&h=600&fit=crop",
-    description: "Celebrating South African heritage with traditional foods and customs",
-    category: "Cultural"
-  },
-  { 
-    id: 13, 
-    title: "Computer Lab - Coding Workshop", 
-    image: "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=800&h=600&fit=crop",
-    description: "Students learning programming skills in our modern computer lab",
-    category: "Academics"
-  },
-  { 
-    id: 14, 
-    title: "Netball Team Training", 
-    image: "https://images.unsplash.com/photo-1594736797933-d0cb71b5a3b4?w=800&h=600&fit=crop",
-    description: "School netball team during intensive training session",
-    category: "Sports"
-  },
-  { 
-    id: 15, 
-    title: "Environmental Club Tree Planting", 
-    image: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?w=800&h=600&fit=crop",
-    description: "Students planting trees as part of our environmental conservation program",
-    category: "Community"
-  },
-  { 
-    id: 16, 
-    title: "Prize Giving Ceremony 2024", 
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&h=600&fit=crop",
-    description: "Annual awards ceremony recognizing academic and sporting achievements",
-    category: "Awards"
-  }
-];
 
-const categories = ["All", "Sports", "Academics", "Arts", "Cultural", "Graduation", "Community", "Awards"];
+const categories = ["All", "Sports", "Academics", "Arts", "Graduation", "Community"];
 
 const ShowGallery: React.FC = () => {
   const [selectedImage, setSelectedImage] = useState<GalleryItem | null>(null);
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
+  const {galleryItems} = useDatabase();
 
   const filteredImages = selectedCategory === "All" 
     ? galleryItems 
-    : galleryItems.filter(item => item.category === selectedCategory);
+    : galleryItems.filter((item: any) => item.category === selectedCategory);
 
   const openModal = (item: GalleryItem) => {
     setSelectedImage(item);
-    setCurrentImageIndex(filteredImages.findIndex(img => img.id === item.id));
+    setCurrentImageIndex(filteredImages.findIndex((img: any) => img.id === item.id));
   };
 
   const closeModal = () => {
@@ -194,11 +82,11 @@ const ShowGallery: React.FC = () => {
       
       {/* Gallery Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredImages.map((item) => (
+        {filteredImages.map((item: any) => (
           <Card key={item.id} className="hover:shadow-xl transition-all duration-300 cursor-pointer group">
             <div className="relative aspect-square bg-gray-200 rounded-t-lg overflow-hidden">
               <img 
-                src={item.image} 
+                src={item.imageUrl} 
                 alt={item.title}
                 className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
                 onError={(e) => {
@@ -269,7 +157,7 @@ const ShowGallery: React.FC = () => {
 
             <div className="relative">
               <img 
-                src={selectedImage.image} 
+                src={selectedImage.imageUrl} 
                 alt={selectedImage.title}
                 className="w-full h-auto max-h-[70vh] object-contain"
               />

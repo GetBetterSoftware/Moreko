@@ -49,8 +49,8 @@ const generateUniqueCode = (prefix: string):string => {
     .toUpperCase();
 };
 const RenderNewsView: React.FC = () => {
-  const {posts, setPosts} = useDatabase();
-  const [articles, setArticles] = useState<Article[]>(posts);
+  const {article, setPosts} = useDatabase();
+  const [articles, setArticles] = useState<Article[]>(article);
   const{data: session} = useSession();
 
 

@@ -65,7 +65,7 @@ const NavButtons = () => {
       <Button
         variant="outline"
         onClick={() => signOut()}
-        className="text-red-800 border-none bg-gray-100 cursor-pointer"
+        className="text-red-800 border-none bg-gray-100 cursor-pointer hover:bg-gray-100"
       >
         <User className="w-4 h-4 mr-2" />
         Sign Out
